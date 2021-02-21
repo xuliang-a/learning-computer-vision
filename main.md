@@ -43,6 +43,8 @@ RCNN是目标检测的奠基之作，RCNN是第一个将卷积神经网络用于
 
 第三步，分类和回归计算，对每一个提议区域的特征送入SVM分类器进行目标的分类，然后进一步将该类别的特征送入多层感知机进行目标坐标位置的回归修正；
 
+![](https://github.com/scutan90/DeepLearning-500-questions/blob/master/ch08_%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B/img/ch8/8.2.1-1.png)
+
 ### Fast RCNN
 由于RCNN需要对每一个提议区域进行特征提取计算即卷积计算，而这些提议区域很多都是高度重叠的，所以为了减少训练时间，Fast RCNN提出了改进方法。
 
