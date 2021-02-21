@@ -82,3 +82,16 @@ RCNN是目标检测的奠基之作，RCNN是第一个将卷积神经网络用于
 
 根据这个公式可以从后向前计算感受野，向前一层一层计算就可以计算到在原始图片上对应的感受野了。
 
+## Q4：ROI pooling是什么？
+ROI pooling层是pooling层的一种，由于是针对ROI
+
+第一步，根据输入的图像将提议区域映射到特征图对应的位置。
+
+第二步，将映射后的区域划分为相同大小的尺寸的sections
+
+第三步，对每个sections进行最大池化操作
+
+这样就可以从不同尺寸的ROI提议区域得到固定大小的特征图。
+
+![](https://github.com/scutan90/DeepLearning-500-questions/blob/master/ch08_%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B/img/ch8/8.1.11.png)
+
