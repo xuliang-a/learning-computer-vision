@@ -56,6 +56,8 @@ RCNN是目标检测的奠基之作，RCNN是第一个将卷积神经网络用于
 
 其实Fast RCNN与SPPNet设计思路类似，SPPNet是空间金字塔池化而非ROI pooling。
 
+![](https://github.com/scutan90/DeepLearning-500-questions/blob/master/ch08_%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B/img/ch8/8.2.2-1.png)
+
 ### Faster RCNN
 该网络从提议区域的生成速度，来对网络的性能进行提高，该网络提出了一个新颖的RPN网络来改进耗时的选择性搜索。
 
@@ -65,3 +67,4 @@ RCNN是目标检测的奠基之作，RCNN是第一个将卷积神经网络用于
 
 第三步，对特征进行分类和回归。
 
+![](https://github.com/scutan90/DeepLearning-500-questions/blob/master/ch08_%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B/img/ch8/8.2.3-1.png)
