@@ -68,3 +68,4 @@ RCNN是目标检测的奠基之作，RCNN是第一个将卷积神经网络用于
 第三步，对特征进行分类和回归。
 
 ![](https://github.com/scutan90/DeepLearning-500-questions/blob/master/ch08_%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B/img/ch8/8.2.3-1.png)
+![](https://github.com/scutan90/DeepLearning-500-questions/blob/master/ch08_%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B/img/ch8/8.2.3-2.png)
