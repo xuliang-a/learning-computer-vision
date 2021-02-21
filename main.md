@@ -21,8 +21,6 @@
 
 ​	任务：特征提取—>生成RP—>分类/定位回归。
 
-​	常见的two stage目标检测算法有：R-CNN、SPP-Net、Fast R-CNN、Faster R-CNN和R-FCN等。
-
 **2.One stage目标检测算法**
 
 ​	不用RP，直接在网络中提取特征来预测物体分类和位置。
