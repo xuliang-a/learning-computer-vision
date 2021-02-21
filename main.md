@@ -93,5 +93,5 @@ ROI pooling层是pooling层的一种，由于是针对ROI
 
 这样就可以从不同尺寸的ROI提议区域得到固定大小的特征图。
 
-![](https://github.com/scutan90/DeepLearning-500-questions/blob/master/ch08_%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B/img/ch8/8.1.11.png)
+![](https://github.com/scutan90/DeepLearning-500-questions/blob/master/ch08_%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B/img/ch8/8.1.11.gif)
 
