@@ -69,3 +69,11 @@ RCNN是目标检测的奠基之作，RCNN是第一个将卷积神经网络用于
 
 ![](https://github.com/scutan90/DeepLearning-500-questions/blob/master/ch08_%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B/img/ch8/8.2.3-1.png)
 ![](https://github.com/scutan90/DeepLearning-500-questions/blob/master/ch08_%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B/img/ch8/8.2.3-2.png)
+
+## Q3：特征图feature map和提议区域ROI是怎么映射的？
+	首先要说明一下卷积输出尺寸的计算，卷积核尺寸为k*k，填充是p，步长是s，则有
+卷积层输出尺寸 = (卷积层输入尺寸 – k + 2p)/s + 1
+那么有感受野，也就是卷积结果对应输入的区域大小的计算方法
+卷积层的输入尺寸（感受野） = (卷积层输出尺寸-1)*s + k -2p
+根据这个公式可以从后向前计算感受野，向前一层一层计算就可以计算到在原始图片上对应的感受野了。
+
