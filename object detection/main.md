@@ -101,6 +101,10 @@ ROI映射的目标是原图ROI区域的中心点尽量接近特征图对应区�
 
 感受野坐标计算
 
+$$
+p_i = s_i * p_i+1 + ((k-1)/2-p)
+$$
+
 ![](https://img-blog.csdn.net/20181011182420832?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2E5NDA5MDI5NDA5MDI=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70)
 
 坐标计算例子
