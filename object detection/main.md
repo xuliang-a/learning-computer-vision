@@ -72,9 +72,10 @@ RCNN是目标检测的奠基之作，RCNN是第一个将卷积神经网络用于
 
 ## Q3：特征图feature map和提议区域ROI是怎么映射的？
 
-我看到了如下映射方法：
 
 ROI映射的目标是原图ROI区域的中心点尽量接近特征图对应区域的中心点。
+
+我看到了如下映射方法：
 
 （1） 把各个坐标除以“输入图片与feature map的大小的比值”，得到了feature map上的box坐标。（摘自《深度学习500问》）
 
@@ -97,6 +98,17 @@ ROI映射的目标是原图ROI区域的中心点尽量接近特征图对应区�
 卷积层的输入尺寸（感受野） = (卷积层输出尺寸-1)*s + k -2p
 
 根据这个公式可以从后向前计算感受野，向前一层一层计算就可以计算到在原始图片上对应的感受野了。
+
+感受野坐标计算
+
+![](https://img-blog.csdn.net/20181011182420832?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2E5NDA5MDI5NDA5MDI=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70)
+
+坐标计算例子
+
+![](https://pic2.zhimg.com/v2-c1ce5a16dbd75553be1a9ea8921f3c35_r.jpg)
+
+
+
 
 ## Q4：ROI pooling是什么？
 ROI pooling层是pooling层的一种，由于是针对ROI进行的池化操作，所以称为ROI pooling
