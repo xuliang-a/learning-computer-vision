@@ -109,7 +109,7 @@ $$
 
 ![](https://pic2.zhimg.com/v2-c1ce5a16dbd75553be1a9ea8921f3c35_r.jpg)
 
-为了简化计算，可以将$$(k-1)/2-p)$$化简，将卷积层和池化层的填充设置为小于等于滤波器尺寸一半的最大整数
+为了简化计算，可以将$$((k-1)/2-p)$$化简，将卷积层和池化层的填充设置为小于等于滤波器尺寸一半的最大整数
 
 那么，
 
@@ -128,4 +128,13 @@ ROI pooling层是pooling层的一种，由于是针对ROI进行的池化操作�
 这样就可以从不同尺寸的ROI提议区域得到固定大小的特征图。
 
 ![](https://github.com/scutan90/DeepLearning-500-questions/blob/master/ch08_%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B/img/ch8/8.1.11.gif)
+
+
+## Q5：什么是RPN网络？
+
+RPN网络是候选区域网络，这个新颖的RPN网络实质上是一种基于神经网络的的二分类和边界框回归模型；
+![](https://github.com/scutan90/DeepLearning-500-questions/blob/master/ch08_%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B/img/ch8/8.2.3-3.png)
+首先在特征图上做3*3卷积核的滑动操作，每个滑动位置考虑k种可能的参考窗口，也就是做k次预测，对于一个W*H的特征图，就会得到产生k*W*H的ROI提议区域，k为3，在分类层得到2k个得分，该得分用于估计k个区域是前景和背景的概率，在回归层得到4k个坐标偏移量，用于边界框回归。
+![](https://github.com/scutan90/DeepLearning-500-questions/blob/master/ch08_%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B/img/ch8/8.2.3-4.png)
+
 
