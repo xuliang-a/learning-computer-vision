@@ -66,7 +66,7 @@ $ \mbox{卷积层的输入尺寸（感受野）} = (\mbox{卷积层输出尺寸}
 |                  池化类型                   |                      示意图                       | 作用                                                         |
 | :-----------------------------------------: | :-----------------------------------------------: | :----------------------------------------------------------- |
 |          一般池化(General Pooling)          |   ![max_pooling](https://github.com/scutan90/DeepLearning-500-questions/blob/master/ch05_%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C(CNN)/img/ch5/general_pooling.png)   | 通常包括最大池化(Max Pooling)和平均池化(Mean Pooling)。以最大池化为例，池化范围$(2\times2)$和滑窗步长$(stride=2)$ 相同，仅提取一次相同区域的范化特征。 |
-|        重叠池化(Overlapping Pooling)        | ![overlap_pooling](https://github.com/scutan90/DeepLearning-500-questions/blob/master/ch05_%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C(CNN)/img/ch5/overlap_pooling.png | 与一般池化操作相同，但是池化范围$P_{size}$与滑窗步长$stride$关系为$P_{size}>stride$，同一区域内的像素特征可以参与多次滑窗提取，得到的特征表达能力更强，但计算量更大。 |
+|        重叠池化(Overlapping Pooling)        | ![overlap_pooling](https://github.com/scutan90/DeepLearning-500-questions/blob/master/ch05_%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C(CNN)/img/ch5/overlap_pooling.png) | 与一般池化操作相同，但是池化范围$P_{size}$与滑窗步长$stride$关系为$P_{size}>stride$，同一区域内的像素特征可以参与多次滑窗提取，得到的特征表达能力更强，但计算量更大。 |
 | 空间金字塔池化$^*$(Spatial Pyramid Pooling) | ![spatial_pooling](https://github.com/scutan90/DeepLearning-500-questions/blob/master/ch05_%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C(CNN)/img/ch5/spatial_pooling.png) | 在进行多尺度目标的训练时，卷积层允许输入的图像特征尺度是可变的，紧接的池化层若采用一般的池化方法会使得不同的输入特征输出相应变化尺度的特征，而卷积神经网络中最后的全连接层则无法对可变尺度进行运算，因此需要对不同尺度的输出特征采样到相同输出尺度。 |
 
 参考《深度学习500问》、《动手学深度学习》
