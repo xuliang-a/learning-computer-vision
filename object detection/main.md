@@ -83,7 +83,7 @@ ROI映射的目标是原图ROI区域的中心点尽量接近特征图对应区�
 
 在SPP-net中，假设（x’,y’）表示特征图上坐标点，（x,y）表示该坐标点在原始输入图像上的对应点。则有结论 （x,y）=(S * x’,S * y’) 其中S代表所有卷积层和池化层的stride 乘积
 
-为了处理有小数的情况，同时左上角点和右下角点都向图像内侧近似，所以左上角加一 右下角减一 同时为了减小这种近似产生的误差 所以左上角向下取整 右下角向上取整
+为了处理有小数的情况，同时左上角点和右下角点都向图像内侧近似(左上角要向右下偏移，右下角要想要向左上偏移)，所以左上角加一 右下角减一 同时为了减小这种近似产生的误差 所以左上角向下取整 右下角向上取整
 
 最后，左上角点 x’= ⌊x/S ⌋+1 右下角点 x’=⌈x/S⌉-1
 
@@ -102,16 +102,18 @@ ROI映射的目标是原图ROI区域的中心点尽量接近特征图对应区�
 感受野坐标计算
 
 $$
-p_i = s_i * p_i+1 + ((k-1)/2-p)
+p_i = s * p_{i+1} + ((k-1)/2-p)
 $$
-
-![](https://img-blog.csdn.net/20181011182420832?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2E5NDA5MDI5NDA5MDI=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70)
 
 坐标计算例子
 
 ![](https://pic2.zhimg.com/v2-c1ce5a16dbd75553be1a9ea8921f3c35_r.jpg)
 
+为了简化计算，可以将$$(k-1)/2-p)$$化简，将卷积层和池化层的填充设置为小于等于滤波器尺寸一半的最大整数
 
+那么，
+
+![](https://img-blog.csdn.net/20181011190140223?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2E5NDA5MDI5NDA5MDI=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70)
 
 
 ## Q4：ROI pooling是什么？
