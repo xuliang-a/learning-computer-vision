@@ -172,11 +172,72 @@ AlexNet是2012年ImageNet竞赛冠军获得者Hinton和他的学生Alex Krizhevs
 
 $\lfloor(227-11+0+4)/4 \rfloor * \lfloor(227-11+0+4)/4 \rfloor = 55 \times 55$
 
+得出输出特征图形状为$55\times 55 \times 96$
+
 计算输出池化形状（$3\times 3, s = 2$）
 
 $\lfloor(55-3+0+2)/2 \rfloor * \lfloor(55-3+0+2)/2 \rfloor = 27 \times 27$
 
 得出输出特征图形状为$27\times 27\times 96$
+
+3. 卷积层2(256个$5 \times 5 \times 96$的卷积核，分别填充2（上下左右分别填充），步长1)
+
+计算输出卷积形状，
+
+$\lfloor(27-5+4+1)/1 \rfloor * \lfloor(27-5+4+1)/4 \rfloor = 27 \times 27$
+
+得出输出特征图形状为$27\times 27 \times 256$
+
+计算输出池化形状（$3\times 3, s = 2$）
+
+$\lfloor(27-3+0+2)/2 \rfloor * \lfloor(27-3+0+2)/2 \rfloor = 13 \times 13$
+
+得出输出特征图形状为$13\times 13\times 256$
+
+4. 卷积层3（384个$3\times 3\times 256$的卷积核，填充1，步长1）
+
+计算输出卷积形状，
+
+$\lfloor(13-3+2+1)/1 \rfloor * \lfloor(13-3+2+1)/4 \rfloor = 13 \times 13$
+
+得出输出特征图形状为$13\times 13 \times 384$
+
+5. 卷积层4（384个$3\times 3\times 384$的卷积核，填充1，步长1）
+
+计算输出卷积形状，
+
+$\lfloor(13-3+2+1)/1 \rfloor * \lfloor(13-3+2+1)/4 \rfloor = 13 \times 13$
+
+得出输出特征图形状为$13\times 13 \times 384$
+
+6. 卷积层5(256个$3 \times 3 \times 384$的卷积核，分别填充1（上下左右分别填充），步长1)
+
+计算输出卷积形状，
+
+$\lfloor(13-3+2+1)/1 \rfloor * \lfloor(13-3+2+1)/4 \rfloor = 13 \times 13$
+
+得出输出特征图形状为$13\times 13 \times 256$
+
+计算输出池化形状（$3\times 3, s = 2$）
+
+$\lfloor(13-3+0+2)/2 \rfloor * \lfloor(13-3+0+2)/2 \rfloor = 6 \times 6$
+
+得出输出特征图形状为$6\times 6\times 256$
+
+7. 全连接层，有4096个神经元，输出$4096\times 1$向量
+
+8. 全连接层，有4096个神经元，输出$4096\times 1$向量
+
+9. 全连接层，有1000个神经元，输出$1000\times 1$向量
+
+总的来说就是卷积池化、卷积池化、卷积、卷积、卷积池化和3个全连接层
+
+##### 2 多个GPU
+
+博主https://blog.csdn.net/chenyuping333的图
+
+![](https://img-blog.csdn.net/20180829094658984?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NoZW55dXBpbmczMzM=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70)
+
 
 ### VGG
 
