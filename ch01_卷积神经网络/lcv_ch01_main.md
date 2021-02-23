@@ -149,10 +149,34 @@ C1是卷积层，有6个尺寸为5×5的卷积核，输入图像的尺寸是32×
 
 AlexNet是2012年ImageNet竞赛冠军获得者Hinton和他的学生Alex Krizhevsky设计的。也是在那年之后，更多的更深的神经网路被提出。其官方提供的数据模型，准确率达到57.1%,top 1-5 达到80.2%。
 
-1. 总体结构
+#### 1. 总体结构
 
+1. 包含八个学习层：5个卷积层和3个全连接层
 
+![](https://img-blog.csdn.net/20180829094734541?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NoZW55dXBpbmczMzM=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70)
 
+2. 网络太大因此将网络分布在两个GPU上，GPU间可以直接互相读写内存，而不需要通过主机内存。
+
+3. Alex采用的并行方案基本上每个GPU放置一半的核（或神经元），还有一个额外的技巧：只在某些特定的层上进行GPU通信。这意味着，例如，第3层的核会将第2层的所有核映射作为输入。然而，第4层的核只将位于相同GPU上的第3层的核映射作为输入。
+
+![](https://img-blog.csdn.net/20180829094603154?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NoZW55dXBpbmczMzM=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70)
+
+#### 2. 详解网络结构
+
+##### 1 先不看成多个GPU
+1. 输入图像$227\times 227\times 3$
+
+2. 卷积层1（96个11*11*3的卷积核，步长是4）
+
+计算输出卷积形状，
+
+$\lfloor(227-11+0+4)/4 \rfloor * \lfloor(227-11+0+4)/4 \rfloor = 55 \times 55$
+
+计算输出池化形状（$3\times 3, s = 2$）
+
+$\lfloor(55-3+0+2)/2 \rfloor * \lfloor(55-3+0+2)/2 \rfloor = 27 \times 27$
+
+得出输出特征图形状为$27\times 27\times 96$
 
 ### VGG
 
@@ -164,6 +188,7 @@ AlexNet是2012年ImageNet竞赛冠军获得者Hinton和他的学生Alex Krizhevs
 
 ### DenseNet
 
+参考博主https://blog.csdn.net/chenyuping333
 
 ## Q9：用于分类的卷积神经网络最后几层一般是什么层？
 
