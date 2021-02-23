@@ -137,6 +137,8 @@ LeNet模型若不考虑输入层，一共包含7个层。即卷积、池化、�
 
 - 进入C3卷积层，由于该卷积层与S2层是局部连接的关系，所以该层分别有6个尺寸为3×5×5的卷积核、9个尺寸为4×5×5的卷积核和1个6×5×5的卷积核，经过卷积计算后得到16幅10×10的特征图，局部连接关系见表；
 
+![](https://static.oschina.net/uploads/space/2018/0311/013017_pIe9_876354.png)
+
 - 进入S4下采样层，S4对这16幅特征图进行平均池化操作，池化窗口大小为2×2，步长为2，S4层的输出为16幅5×5的特征图；
 
 - 进入C5卷积层，有120个尺寸为16×5×5的卷积核，得到了120幅1×1的特征图，其实就是得到了一个120维的向量，这层相当于一个输出个数为120的全连接层；
@@ -144,9 +146,6 @@ LeNet模型若不考虑输入层，一共包含7个层。即卷积、池化、�
 - 接下来的F6是全连接层，有84个输出；
 
 - 最后一层是输出层，有10个输出，也就是要识别的数字0到9的类别个数。
-
-![](https://static.oschina.net/uploads/space/2018/0311/013017_pIe9_876354.png)
-
 
 LeNet的卷积用法:
 
@@ -156,7 +155,7 @@ LeNet的池化用法:
 
 - $2\times 2$，步长为2，没有填充，使输出特征图的尺寸变为输入的一半
 
--------
+---
 
 ### AlexNet
 
@@ -174,7 +173,7 @@ AlexNet取得了2012年的ILSVRC的竞赛冠军，由Hinton和他的学生Alex K
 
 ![](https://img-blog.csdn.net/20180829094603154?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NoZW55dXBpbmczMzM=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70)
 
-#### 2. 详解网络结构
+#### 2. 详解AlexNet网络结构
 
 ##### 1 先不看成多个GPU
 
@@ -182,61 +181,61 @@ AlexNet取得了2012年的ILSVRC的竞赛冠军，由Hinton和他的学生Alex K
 
 2. 卷积层1（96个11*11*3的卷积核，步长是4）
 
-计算输出卷积形状，
+   - 计算输出卷积形状，
 
-$\lfloor(227-11+0+4)/4 \rfloor * \lfloor(227-11+0+4)/4 \rfloor = 55 \times 55$
+     $\lfloor(227-11+0+4)/4 \rfloor * \lfloor(227-11+0+4)/4 \rfloor = 55 \times 55$
 
-得出输出特征图形状为$55\times 55 \times 96$
+     得出输出特征图形状为$55\times 55 \times 96$
 
-计算输出池化形状（$3\times 3, s = 2$）
+   - 计算输出池化形状（$3\times 3, s = 2$）
 
-$\lfloor(55-3+0+2)/2 \rfloor * \lfloor(55-3+0+2)/2 \rfloor = 27 \times 27$
+     $\lfloor(55-3+0+2)/2 \rfloor * \lfloor(55-3+0+2)/2 \rfloor = 27 \times 27$
 
-得出输出特征图形状为$27\times 27\times 96$
+     得出输出特征图形状为$27\times 27\times 96$
 
 3. 卷积层2(256个$5 \times 5 \times 96$的卷积核，分别填充2（上下左右分别填充），步长1)
 
-计算输出卷积形状，
+   - 计算输出卷积形状，
 
-$\lfloor(27-5+4+1)/1 \rfloor * \lfloor(27-5+4+1)/4 \rfloor = 27 \times 27$
+     $\lfloor(27-5+4+1)/1 \rfloor * \lfloor(27-5+4+1)/4 \rfloor = 27 \times 27$
 
-得出输出特征图形状为$27\times 27 \times 256$
+     得出输出特征图形状为$27\times 27 \times 256$
 
-计算输出池化形状（$3\times 3, s = 2$）
+   - 计算输出池化形状（$3\times 3, s = 2$）
 
-$\lfloor(27-3+0+2)/2 \rfloor * \lfloor(27-3+0+2)/2 \rfloor = 13 \times 13$
+     $\lfloor(27-3+0+2)/2 \rfloor * \lfloor(27-3+0+2)/2 \rfloor = 13 \times 13$
 
-得出输出特征图形状为$13\times 13\times 256$
+     得出输出特征图形状为$13\times 13\times 256$
 
 4. 卷积层3（384个$3\times 3\times 256$的卷积核，填充1，步长1）
 
-计算输出卷积形状，
+   - 计算输出卷积形状，
 
-$\lfloor(13-3+2+1)/1 \rfloor * \lfloor(13-3+2+1)/4 \rfloor = 13 \times 13$
+     $\lfloor(13-3+2+1)/1 \rfloor * \lfloor(13-3+2+1)/4 \rfloor = 13 \times 13$
 
-得出输出特征图形状为$13\times 13 \times 384$
+     得出输出特征图形状为$13\times 13 \times 384$
 
 5. 卷积层4（384个$3\times 3\times 384$的卷积核，填充1，步长1）
 
-计算输出卷积形状，
+   - 计算输出卷积形状，
 
-$\lfloor(13-3+2+1)/1 \rfloor * \lfloor(13-3+2+1)/4 \rfloor = 13 \times 13$
+     $\lfloor(13-3+2+1)/1 \rfloor * \lfloor(13-3+2+1)/4 \rfloor = 13 \times 13$
 
-得出输出特征图形状为$13\times 13 \times 384$
+     得出输出特征图形状为$13\times 13 \times 384$
 
 6. 卷积层5(256个$3 \times 3 \times 384$的卷积核，分别填充1（上下左右分别填充），步长1)
 
-计算输出卷积形状，
+   - 计算输出卷积形状，
 
-$\lfloor(13-3+2+1)/1 \rfloor * \lfloor(13-3+2+1)/4 \rfloor = 13 \times 13$
+     $\lfloor(13-3+2+1)/1 \rfloor * \lfloor(13-3+2+1)/4 \rfloor = 13 \times 13$
 
-得出输出特征图形状为$13\times 13 \times 256$
+     得出输出特征图形状为$13\times 13 \times 256$
 
-计算输出池化形状（$3\times 3, s = 2$）
+   - 计算输出池化形状（$3\times 3, s = 2$）
 
-$\lfloor(13-3+0+2)/2 \rfloor * \lfloor(13-3+0+2)/2 \rfloor = 6 \times 6$
+     $\lfloor(13-3+0+2)/2 \rfloor * \lfloor(13-3+0+2)/2 \rfloor = 6 \times 6$
 
-得出输出特征图形状为$6\times 6\times 256$
+     得出输出特征图形状为$6\times 6\times 256$
 
 7. 全连接层，有4096个神经元，输出$4096\times 1$向量
 
@@ -248,11 +247,11 @@ $\lfloor(13-3+0+2)/2 \rfloor * \lfloor(13-3+0+2)/2 \rfloor = 6 \times 6$
 
 ##### 2 多个GPU
 
-博主https://blog.csdn.net/chenyuping333的图
+可参考博主https://blog.csdn.net/chenyuping333的图
 
 ![](https://img-blog.csdn.net/20180829094658984?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NoZW55dXBpbmczMzM=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70)
 
--------
+---
 
 ### VGG
 
@@ -368,6 +367,8 @@ VGG块的组成规律是：
 1.	连续使用数个相同的填充为1、窗口形状为 $3\times 3$ 的卷积层后接上一个步幅为2、窗口形状为2×2的最大池化层。
 
 2.	卷积层保持输入的高和宽不变，而池化层则对其减半。
+
+---
 
 ### NiN
 
