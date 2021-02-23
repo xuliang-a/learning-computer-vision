@@ -123,7 +123,7 @@ $1\times 1 $卷积的作用主要为以下两点：
 
 ## Q8：用于图像分类的卷积神经网络发展过程是怎样的？
 
-### LeNet
+### LeNet（1998）
 
 LeNet被广泛用于银行手写体数字识别，是现代卷积神经网络的原型。这个名字来源于LeNet论文的第一作者Yann LeCun。
 
@@ -156,9 +156,11 @@ LeNet的池化用法:
 
 - 输入的特征图的尺寸是偶数，$2\times 2$，步长为2，没有填充，使输出特征图的尺寸变为输入的一半
 
+      LeCun, Y., Bottou, L., Bengio, Y., & Haffner, P. (1998). Gradient-based learning applied to document recognition. Proceedings of the IEEE, 86(11), 2278-2324.
+
 ---
 
-### AlexNet
+### AlexNet（2012）
 
 AlexNet取得了2012年的ILSVRC的竞赛冠军，由Hinton和他的学生Alex Krizhevsky设计的。也是在那年之后，更多的更深的神经网路被提出。
 
@@ -263,9 +265,15 @@ AlexNet的池化用法:
 
 ![](https://img-blog.csdn.net/20180829094658984?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NoZW55dXBpbmczMzM=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70)
 
+    Krizhevsky, A., Sutskever, I., & Hinton, G. E. (2012). Imagenet classification with deep convolutional neural networks. In Advances in neural information processing systems (pp. 1097-1105).
+    
 ---
 
-### VGG
+### NiN（2013）
+
+    Lin, M., Chen, Q., & Yan, S. (2013). Network in network. arXiv preprint arXiv:1312.4400.
+
+### VGG（2014）
 
 VGG是Oxford牛津大学的Visual Geometry Group的组提出，并在2014年ILSVRC取得了着不错的效果。VGG研究的初衷是想搞清楚卷积网络深度是如何影响大规模图像分类与识别的精度和准确率的，最初是VGG-16号称非常深的卷积网络全称为（GG-Very-Deep-16 CNN），VGG在加深网络层数同时为了避免参数过多，在所有层都采用3x3的小卷积核。
 
@@ -380,9 +388,11 @@ VGG块的组成规律是：
 
 2.	卷积层保持输入的高和宽不变，而池化层则对其减半。
 
+       Simonyan, K., & Zisserman, A. (2014). Very deep convolutional networks for large-scale image recognition. arXiv preprint arXiv:1409.1556.
+
 ---
 
-### NiN
+
 
 ### GoogLeNet
 
