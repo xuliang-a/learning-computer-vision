@@ -145,6 +145,8 @@ C1是卷积层，有6个尺寸为5×5的卷积核，输入图像的尺寸是32×
 
 ![](https://static.oschina.net/uploads/space/2018/0311/013017_pIe9_876354.png)
 
+-------
+
 ### AlexNet
 
 AlexNet是2012年ImageNet竞赛冠军获得者Hinton和他的学生Alex Krizhevsky设计的。也是在那年之后，更多的更深的神经网路被提出。其官方提供的数据模型，准确率达到57.1%,top 1-5 达到80.2%。
@@ -238,8 +240,43 @@ $\lfloor(13-3+0+2)/2 \rfloor * \lfloor(13-3+0+2)/2 \rfloor = 6 \times 6$
 
 ![](https://img-blog.csdn.net/20180829094658984?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NoZW55dXBpbmczMzM=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70)
 
+-------
 
 ### VGG
+
+VGG全称是Visual Geometry Group属于牛津大学科学工程系，其发布了一些列以VGG开头的卷积网络模型，可以应用在人脸识别、图像分类等方面，分别从VGG16～VGG19。VGG研究卷积网络深度的初衷是想搞清楚卷积网络深度是如何影响大规模图像分类与识别的精度和准确率的，最初是VGG-16号称非常深的卷积网络全称为（GG-Very-Deep-16 CNN），VGG在加深网络层数同时为了避免参数过多，在所有层都采用3x3的小卷积核，卷积层步长被设置为1。
+
+#### VGG-16 总体结构
+
+1. VGG的输入被设置为224x224大小的RGB图像，在训练集图像上对所有图像计算RGB均值，然后把图像作为输入传入VGG卷积网络，使用3x3或者1x1的filter，卷积步长被固定1。VGG全连接层有3层，根据卷积层+全连接层总数目的不同可以从VGG11 ～ VGG19，最少的VGG11有8个卷积层与3个全连接层，最多的VGG19有16个卷积层+3个全连接层，此外VGG网络并不是在每个卷积层后面跟上一个池化层，总共有5个池化层，分布在不同的卷积层之下，下图是VGG16的结构图：
+
+![](https://img-blog.csdn.net/20180831091117872?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NoZW55dXBpbmczMzM=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70)
+
+![](https://img-blog.csdn.net/20180831091052723?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NoZW55dXBpbmczMzM=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70)
+
+#### VGG 块
+
+VGG块的组成规律是：
+1.	连续使用数个相同的填充为1、窗口形状为3×3的卷积层后接上一个步幅为2、窗口形状为2×2的最大池化层。
+2.	卷积层保持输入的高和宽不变，而池化层则对其减半。
+
+#### VGG-11的结构
+
+1. 输入图像$224\times 224\times 1$
+
+3. VGG块1
+
+　　1）卷积层1（64个3*3*1的卷积核，填充1（上下左右分别填充），步长1）
+  
+　　　　计算输出形状
+    
+    　　$\lfloor(224-3+2+1)/1 \rfloor * \lfloor(224-3+2+1)/1 \rfloor = 224 \times 224$
+      
+　　　　特征图输出形状为$ 224 \times 224 \times 64$
+    
+    　　
+
+　　
 
 ### NiN
 
