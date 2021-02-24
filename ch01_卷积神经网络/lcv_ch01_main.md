@@ -161,7 +161,9 @@ LeNet模型若不考虑输入层，一共包含7个层。即卷积、池化、�
 
 该模型C3卷积层的参数量，采用了稀疏连接进行限制
 
-$ (5\times 5\times 3 + 1)\times 6 + (5\times 5\times 4 + 1)\times 3 + (5\times 5\times 4 + 1)\times 1 + (5\times 5\times 6 + 1)\times 1 + $
+$ (5\times 5\times 3 + 1)\times 6 + (5\times 5\times 4 + 1)\times 6 + (5\times 5\times 4 + 1)\times 3 + (5\times 5\times 6 + 1)\times 1 = 1516 $
+
+![C3卷积层示意](https://img-blog.csdn.net/20180606094210133)
 
 池化层参数计算以S2层为例，有$ (1 + 1)\times 6$，两个1一个是权重，一个是偏置，在没有权重和偏置的情况下可认为参数量是0
 
@@ -178,8 +180,6 @@ LeNet的卷积用法:
 LeNet的池化用法:
 
 - 输入的特征图的尺寸是偶数，$2\times 2$，步长为2，没有填充，使输出特征图的尺寸变为输入的一半
-
-
 
 LeNet论文:
 
@@ -286,6 +286,8 @@ AlexNet的池化用法:
 
 - 输入特征图的尺寸为奇数，$3\times 3$，步长为2，没有填充，使输出特征图的尺寸变为输入的一半取下限
 
+  该池化的池化范围3>步长属于重叠池化。
+
 ##### 2 多个GPU
 
 可参考博主https://blog.csdn.net/chenyuping333的图
@@ -294,6 +296,14 @@ AlexNet的池化用法:
 
     Krizhevsky, A., Sutskever, I., & Hinton, G. E. (2012). Imagenet classification with deep convolutional neural networks. In Advances in neural information processing systems (pp. 1097-1105).
     
+---
+
+### ZFNet
+
+ZFNet是2013年ILSVRC的冠军。
+
+![](https://img-blog.csdn.net/20180829101607795?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NoZW55dXBpbmczMzM=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70)
+
 ---
 
 ### NiN（2013）
@@ -501,3 +511,5 @@ VGG块的组成规律是：
 激活层 Activation Layer
 
 全连接层 Full Connected Layer
+
+ILSVRC ImageNet Large Scale Visual Recognition Competition
