@@ -1,7 +1,7 @@
 
 # 卷积神经网络
 
-## Q1：卷积神经网络是什么和全连接层有什么区别？
+## Q1：卷积神经网络是什么和多层感知机有什么区别？
 在卷积神经网络（Convolutional Neural Network，CNN）出现之前，多层感知机（Multi-Layer Perceptron，MLP）是比较常见神经网络。多层感知机相邻层节点通常是全连接的，也就是输入层的每个节点会与输出层每个节点相连接。与多层感知机不同，卷积神经网络的主要组成部分是卷积层，每个卷积层通过特定数目的卷积核与输入图像进行扫描计算，由于卷积核的尺寸一般是要小于输入图像的尺寸，所以卷积层输出的每个节点只与输入层的部分节点相连接，称为局部连接，该特点与多层感知机的全连接不同。另外卷积神经网络还有另一个特征，权值共享，具体来说卷积层输出的每个节点，与输入层所连接的权值是一样的，都是卷积核的内部的参数。
 
 参考《百面深度学习》P4-7
@@ -125,36 +125,63 @@ $1\times 1 $卷积的作用主要为以下两点：
 
 ### LeNet（1998）
 
-LeNet被广泛用于银行手写体数字识别，是现代卷积神经网络的原型。这个名字来源于LeNet论文的第一作者Yann LeCun。
+LeNet-5被广泛用于银行手写体数字识别，是现代卷积神经网络的原型, 这个名字来源于LeNet论文的第一作者Yann LeCun, 5是研究成果的代号.
 
-![](https://static.oschina.net/uploads/space/2018/0311/012923_Ficx_876354.png)
+![LeNet-5结构](https://img-blog.csdn.net/20180606092950828)
+
+#### 1. 特征图尺寸计算
 
 LeNet模型若不考虑输入层，一共包含7个层。即卷积、池化、卷积、池化、卷积和2个全连接层，再简单点说就是三个卷积层和两个全连接层。
 
 - C1是卷积层，有6个尺寸为5×5的卷积核，输入图像的尺寸是32×32，经过卷积计算后得到了6幅28×28的特征图；
 
-- 进入S2下采样层，S2对6幅特征图进行平均池化操作，池化窗口大小为2×2，步长为2，S2层的输出为6幅14×14的特征图；
+- S2是下采样层，S2对6幅特征图进行平均池化操作，池化窗口大小为2×2，步长为2，S2层的输出为6幅14×14的特征图；
 
-- 进入C3卷积层，由于该卷积层与S2层是局部连接的关系，所以该层分别有6个尺寸为3×5×5的卷积核、9个尺寸为4×5×5的卷积核和1个6×5×5的卷积核，经过卷积计算后得到16幅10×10的特征图，局部连接关系见表；
+- C3是卷积层，由于该卷积层与S2层是局部连接的关系，所以该层分别有6个尺寸为5×5×3的卷积核、9个尺寸为5×5×4的卷积核和1个5×5×6的卷积核，经过卷积计算后得到16幅10×10的特征图，局部连接关系见表；
 
-![](https://static.oschina.net/uploads/space/2018/0311/013017_pIe9_876354.png)
+![S2和C3的连接关系](https://img-blog.csdn.net/20180606094255999)
 
-- 进入S4下采样层，S4对这16幅特征图进行平均池化操作，池化窗口大小为2×2，步长为2，S4层的输出为16幅5×5的特征图；
+对应的列就是6幅C3输入的特征图, 对应的行就是C3输出结果对应的特征图, 具体来说就是生成的16个通道的特征图分别按照相邻的3个特征图,相邻的4个特征图,非相邻的4个特征图和全部6个特征图进行映射。
 
-- 进入C5卷积层，有120个尺寸为16×5×5的卷积核，得到了120幅1×1的特征图，其实就是得到了一个120维的向量，这层相当于一个输出个数为120的全连接层；
+- S4是下采样层，S4对这16幅特征图进行平均池化操作，池化窗口大小为2×2，步长为2，S4层的输出为16幅5×5的特征图；
+
+- C5是卷积层，有120个尺寸为16×5×5的卷积核，得到了120幅1×1的特征图，其实就是得到了一个120维的向量，这层相当于一个输出个数为120的全连接层；
 
 - 接下来的F6是全连接层，有84个输出；
 
 - 最后一层是输出层，有10个输出，也就是要识别的数字0到9的类别个数。
 
+#### 2. 参数量的计算
+
+参数量包括权重和偏置。
+
+卷积层参数计算以C1层为例, 有$ (5\times 5 + 1)\times 6$，1是偏置
+
+![卷积参数量计算](https://img-blog.csdn.net/20180606093453532)
+
+该模型C3卷积层的参数量，采用了稀疏连接进行限制
+
+$ (5\times 5\times 3 + 1)\times 6 + (5\times 5\times 4 + 1)\times 3 + (5\times 5\times 4 + 1)\times 1 + (5\times 5\times 6 + 1)\times 1 + $
+
+池化层参数计算以S2层为例，有$ (1 + 1)\times 6$，两个1一个是权重，一个是偏置，在没有权重和偏置的情况下可认为参数量是0
+
+![池化参数量计算](https://img-blog.csdn.net/20180606094138206)
+
+参考博主https://blog.csdn.net/saw009/article/details/80590245
+
 
 LeNet的卷积用法:
 
 - $5\times 5 $ 的卷积核，没有填充和步长，正常计算
+- $5\times 5 $ 的卷积核，没有填充和步长，输入特征图尺寸也是 $5\times 5 $的,正常计算后变为 $1\times 1 $, 选取的核尺寸若和输入尺寸已知,即可将卷积后尺寸压缩到 $1\times 1 $
 
 LeNet的池化用法:
 
 - 输入的特征图的尺寸是偶数，$2\times 2$，步长为2，没有填充，使输出特征图的尺寸变为输入的一半
+
+
+
+LeNet论文:
 
       LeCun, Y., Bottou, L., Bengio, Y., & Haffner, P. (1998). Gradient-based learning applied to document recognition. Proceedings of the IEEE, 86(11), 2278-2324.
 
@@ -270,6 +297,8 @@ AlexNet的池化用法:
 ---
 
 ### NiN（2013）
+
+    
 
     Lin, M., Chen, Q., & Yan, S. (2013). Network in network. arXiv preprint arXiv:1312.4400.
 
@@ -388,17 +417,33 @@ VGG块的组成规律是：
 
 2.	卷积层保持输入的高和宽不变，而池化层则对其减半。
 
-       Simonyan, K., & Zisserman, A. (2014). Very deep convolutional networks for large-scale image recognition. arXiv preprint arXiv:1409.1556.
+
+        Simonyan, K., & Zisserman, A. (2014). Very deep convolutional networks for large-scale image recognition. arXiv preprint arXiv:1409.1556.
 
 ---
 
+### GoogLeNet(2014)
 
 
-### GoogLeNet
+       Szegedy, C., Liu, W., Jia, Y., Sermanet, P., Reed, S., & Anguelov, D. & Rabinovich, A.(2015). Going deeper with convolutions. In Proceedings of the IEEE conference on computer vision and pattern recognition (pp. 1-9).
+       
+---
 
-### ResNet
+### SSPNet(2015)
 
-### DenseNet
+        He, K., Zhang, X., Ren, S., & Sun, J. (2015). Spatial pyramid pooling in deep convolutional networks for visual recognition. IEEE transactions on pattern analysis and machine intelligence, 37(9), 1904-1916.
+        
+---
+
+### ResNet(2016)
+
+        He, K., Zhang, X., Ren, S., & Sun, J. (2016). Deep residual learning for image recognition. In Proceedings of the IEEE conference on computer vision and pattern recognition (pp. 770-778).
+
+---       
+### DenseNet(2017)
+
+
+        Huang, G., Liu, Z., Weinberger, K. Q., & van der Maaten, L. (2017). Densely connected convolutional networks. In Proceedings of the IEEE conference on computer vision and pattern recognition (Vol. 1, No. 2).
 
 参考博主https://blog.csdn.net/chenyuping333
 
