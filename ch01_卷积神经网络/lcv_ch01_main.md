@@ -294,7 +294,9 @@ AlexNet的池化用法:
 
 ![](https://img-blog.csdn.net/20180829094658984?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NoZW55dXBpbmczMzM=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70)
 
-    Krizhevsky, A., Sutskever, I., & Hinton, G. E. (2012). Imagenet classification with deep convolutional neural networks. In Advances in neural information processing systems (pp. 1097-1105).
+AlexNet论文：
+
+      Krizhevsky, A., Sutskever, I., & Hinton, G. E. (2012). Imagenet classification with deep convolutional neural networks. In Advances in neural information processing systems (pp. 1097-1105).
     
 ---
 
@@ -303,6 +305,12 @@ AlexNet的池化用法:
 ZFNet是2013年ILSVRC的冠军。
 
 ![](https://img-blog.csdn.net/20180829101607795?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NoZW55dXBpbmczMzM=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70)
+
+注意，
+
+layer1和layer2的padding是valid类型，valid类型的计算公式 $ \lceil (输入尺寸- k + 1)/s \rceil$
+
+layer3、layer4和layer5的padding都是same类型，same类型的计算公式 $ \lceil (输入尺寸)/s \rceil $
 
 ---
 
