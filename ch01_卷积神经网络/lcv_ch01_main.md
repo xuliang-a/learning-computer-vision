@@ -308,9 +308,9 @@ ZFNet是2013年ILSVRC的冠军。
 
 注意，
 
-layer1和layer2的padding是valid类型，valid类型的计算公式 $ \lfloor (输入尺寸- 1)/s\rfloor + 1$, 就是一共填充k-1
+layer1和layer2的padding是valid类型，valid类型的计算公式 $ \lfloor (输入尺寸-k)/s \rfloor + 1 $, 就是不进行填充
 
-layer3、layer4和layer5的padding都是same类型，same类型的计算公式 $ \lfloor (输入尺寸-k)/s \rfloor + 1 $, 就是不进行填充
+layer3、layer4和layer5的padding都是same类型，same类型的计算公式 $ \lfloor (输入尺寸- 1)/s\rfloor + 1$, 就是一共填充k-1
 
 ---
 
