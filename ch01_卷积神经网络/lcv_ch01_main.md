@@ -281,6 +281,8 @@ AlexNet的卷积用法:
 - $11\times 11 $ 的卷积核，步长为4，没有填充，正常计算
 
 - $5\times 5 $ 的卷积核，分别填充为2和步长为1，使输出特征图的尺寸和输入一致
+- 
+- $3\times 3 $ 的卷积核，分别填充为2和步长为1，使输出特征图的尺寸和输入一致
 
 AlexNet的池化用法:
 
@@ -300,7 +302,7 @@ AlexNet论文：
     
 ---
 
-### ZFNet
+### ZFNet（2013）
 
 ZFNet是2013年ILSVRC的冠军。
 
@@ -312,11 +314,62 @@ layer1和layer2的padding是valid类型，valid类型的计算公式 $ \lfloor (
 
 layer3、layer4和layer5的padding都是same类型，same类型的计算公式 $ \lfloor (输入尺寸- 1)/s\rfloor + 1$, 就是一共填充k-1
 
+ZFNet的卷积用法:
+
+- ZFNet用 $7\times 7$ 步长为2的卷积核代替AlexNet中$11\times 11 $ 步长为4的卷积核，第一层的卷积核和步长不宜过大，否则会导致后续学习的特征不够细致。
+
+- ZFNet用 $5\times 5 $ 的卷积核，步长为2
+
+- ZFNet用 $3\times 3 $ 的卷积核，步长为1
+
+ZFNet的池化用法:
+
+- 和AlexNet采用相同的池化方式，$3\times 3$，步长为2，没有填充，使输出特征图的尺寸变为输入的一半
+
+  该池化的池化范围3>步长2属于重叠池化。
+  
+ZFNet实际上是微调了AlexNet，然后通过转置卷积（Deconvolution）的方式可视化各层的输出特征图，提高了可解释性。
+
 ---
 
 ### NiN（2013）
 
-    
+Network In Network由Minlin等人提出，在CIFAR-10和CIFAR-100分类任务中达到了当时最好的水平。
+
+为了提高特征的抽象表达能力，作者提出了使用多层感知机（多层全连接层和非线性函数的组合）来替代传统卷积层，新卷积层称为mlpconv层。
+
+传统线性卷积层示意图
+
+![传统卷积层示意图](http://img.blog.csdn.net/20160623184637569)
+
+单通道mlpconv层示意图
+
+![单通道mlpconv层示意图](http://img.blog.csdn.net/20160623184654929)
+
+由于多层感知机可以用 $1\times 1$卷积层替代，所以新层称为cccp层(cascaded cross channel parametric pooling)
+
+跨通道cccp层示意图
+
+![跨通道cccp层示意图](http://img.blog.csdn.net/20160623191820505)
+
+NIN网络由3个cccp层和一个全局平均池化层组成。
+
+全连接层与全局平均池化对比图, 节省参数。
+
+![全连接层与全局平均池化对比图](https://www.freesion.com/images/187/422561fc0b3638305c8bf47cb7dece83.JPEG)
+
+参考《深度学习500问》P145的网络参数配置表，可以计算网络各个阶段的尺寸
+
+1. 输入图像 $32 \times 32$
+
+2. cccp层1
+
+   - 卷积层：核 $ 3\times 3 \times 16$, stride步长为1
+   
+     计算特征图尺寸 $ (32-3+1)/1 \times (32-3+1)/1 = 30 \times 30$
+     
+   - 全连接层（$1 \times 1 $卷积层，通道数）：
+
 
     Lin, M., Chen, Q., & Yan, S. (2013). Network in network. arXiv preprint arXiv:1312.4400.
 
