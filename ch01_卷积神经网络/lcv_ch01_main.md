@@ -565,9 +565,14 @@ $ (1\times 1 + 3\times 3 + 5\times 5 + 0) \times 16 \times 16 = 8960$
 
 再来看整个结构，若Inception右边网络设置 $1\times 1$卷积核的个数为$C2 = 8$，满足$C1>C2$
 
-那么网络的的参数量为$ C1 \times 1 \times 1 \times C2 + 3\times (C1 \times 1 \times 1 \times C2) + C2 \times 3 \times 3 \times C1 + C2 \times 5 \times 5 \times C1   $
+那么网络的的参数量为$ C1 \times 1 \times 1 \times C1 + 3\times (C1 \times 1 \times 1 \times C2) + C2 \times 3 \times 3 \times C1 + C2 \times 5 \times 5 \times C1   $
+即$ 16 \times 1 \times 1 \times 16 + 3\times (16 \times 1 \times 1 \times 8) + 8 \times 3 \times 3 \times 16 + 8 \times 5 \times 5 \times 16   = 3200$
 
+可以看出在保证输出尺寸的情况下，减少了很多参数。
 
+GoogLeNet完整结构如下：
+
+![GoogLeNet完整结构图](https://img-blog.csdn.net/20160225155414702)
 
 
 
