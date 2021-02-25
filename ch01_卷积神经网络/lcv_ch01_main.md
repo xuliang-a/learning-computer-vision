@@ -574,13 +574,51 @@ GoogLeNet完整结构如下：
 
 ![GoogLeNet完整结构图](https://img-blog.csdn.net/20160225155414702)
 
+1. 输入 $224\times 224\times 3$
 
+2. 卷积层 $7\times 7$卷积核，stride=2, 分别padding=3, 输出通道64
+   
+   $(224-7+6+2)/2 = 112.5$，输出特征图尺寸 $112\times 112 \times 64$
 
+3. 池化层 $3\times 3$窗口，stride=2,分别padding=1
 
+   $(112-3+2+2)/2 = 56.5$，输出特征图尺寸 $56 \times 56 \times 64$
 
+4. 卷积层 $3\times 3$卷积核，stride=1, 分别padding=1, 输出通道192
 
+   输出特征图尺寸 $56\times 56\times 192$
+   
+5. 池化层 $3\times 3$窗口，stride=2,分别padding=1
 
+   $(56-3+2+2)/2 = 28.5$，输出特征图尺寸 $28 \times 28 \times 192$
 
+6. Inception层
+
+   - 通道1：$ 1\times 1$卷积层，核个数64，输出尺寸$28\times 28 \times 64$;
+    
+   - 通道2：
+   
+      + $1 \times 1$卷积层，核个数96，输出尺寸 $28 \times 28 \times 96$;
+       
+      + $3\times 3$卷积层，核个数128，分别padding = 1, 输出尺寸 $ 28 \times 28 \times 128$;
+
+   - 通道3：
+   
+      + $1 \times 1$卷积层，核个数32，输出尺寸 $28 \times 28 \times 32$;
+       
+      + $5\times 5$卷积层，核个数32，分别padding = 2, 输出尺寸 $ 28 \times 28 \times 32$;
+
+   - 通道4：
+   
+      + $3\times 3$的pooling层，分别padding为1， 输出尺寸 $ 28\times 28 \times 192$
+
+      + $1\times 1$的卷积层，核个数32，输出尺寸 $28 \times 28 \times 32$
+    
+   - 拼接结果得到本层输出特征图尺寸 $ 28 \times 28\times (64+128+32+32) = 28\times 28 \times 256$
+
+     ![拼接尺寸](https://pic4.zhimg.com/v2-57e6660e8c7f9c061f42d6f24ccbd957_r.jpg)
+
+其它类推
 
        Szegedy, C., Liu, W., Jia, Y., Sermanet, P., Reed, S., & Anguelov, D. & Rabinovich, A.(2015). Going deeper with convolutions. In Proceedings of the IEEE conference on computer vision and pattern recognition (pp. 1-9).
 
