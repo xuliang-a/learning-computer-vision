@@ -352,7 +352,7 @@ Network In Network由Minlin等人提出，在CIFAR-10和CIFAR-100分类任务中
 
 ![跨通道cccp层示意图](http://img.blog.csdn.net/20160623191820505)
 
-NIN网络由3个cccp层和一个全局平均池化层组成。
+NIN网络由3个cccp层和一个全局平均池化层（Global Average Pooling）组成。
 
 全连接层与全局平均池化对比图, 节省参数。
 
@@ -366,16 +366,46 @@ NIN网络由3个cccp层和一个全局平均池化层组成。
 
    - 卷积层：核 $ 3\times 3 \times 16$, stride步长为1
    
-     计算特征图尺寸 $ (32-3+1)/1 \times (32-3+1)/1 = 30 \times 30$
+     计算特征图尺寸 $ (32-3+1)/1 \times (32-3+1)/1 \times 16 = 30 \times 30 \times 16$
      
-   - 全连接层（$1 \times 1 $卷积层，通道数）：
+   - 全连接层（$1 \times 1 $卷积层，输出通道数16）：
+     
+     计算特征图尺寸 $ (30-1+1)\times (30-1+1) \times 16 = 30\times 30\times 16$
+     
+3. cccp层2
+   
+   - 卷积层：核 $ 3\times 3 \times 64$, stride步长为1
+   
+     计算特征图尺寸 $ (30-3+1)/1 \times (30-3+1)/1 \times 64 = 28 \times 28 \times 64$
+     
+   - 全连接层（$1 \times 1 $卷积层，输出通道数64）：
+     
+     计算特征图尺寸 $ (28-1+1)\times (28-1+1) \times 64 = 28\times 28\times 64$
+     
+4. cccp层3
 
+   - 卷积层：核 $ 3\times 3 \times 100$, stride步长为1
+   
+     计算特征图尺寸 $ (28-3+1)/1 \times (28-3+1)/1 \times 100 = 26 \times 26 \times 100$
+     
+   - 全连接层（$1 \times 1 $卷积层，输出通道数100）：
+     
+     计算特征图尺寸 $ (26-1+1)\times (26-1+1) \times 64 = 26\times 26\times 100$
+     
+5. 全局平均采样层GAP
 
-    Lin, M., Chen, Q., & Yan, S. (2013). Network in network. arXiv preprint arXiv:1312.4400.
+   池化窗口$ 26 * 26 * 100$ , 步长为1
+   
+   输出特征图 $ (26 - 26 + 1)/1 \times (26-26+1)/1 \times 100 = 1 \times 1 \times 100$
+   
+
+NiN论文：
+
+      Lin, M., Chen, Q., & Yan, S. (2013). Network in network. arXiv preprint arXiv:1312.4400.
 
 ### VGG（2014）
 
-VGG是Oxford牛津大学的Visual Geometry Group的组提出，并在2014年ILSVRC取得了着不错的效果。VGG研究的初衷是想搞清楚卷积网络深度是如何影响大规模图像分类与识别的精度和准确率的，最初是VGG-16号称非常深的卷积网络全称为（GG-Very-Deep-16 CNN），VGG在加深网络层数同时为了避免参数过多，在所有层都采用3x3的小卷积核。
+VGG是Oxford牛津大学的Visual Geometry Group的组提出，并在2014年ILSVRC取得亚军。VGG研究的初衷是想搞清楚卷积网络深度是如何影响大规模图像分类与识别的精度和准确率的，最初是VGG-16号称非常深的卷积网络全称为（GG-Very-Deep-16 CNN），VGG在加深网络层数同时为了避免参数过多，在所有层都采用3x3的小卷积核。
 
 #### 1. VGG-16 的总体结构
 
@@ -495,9 +525,62 @@ VGG块的组成规律是：
 
 ### GoogLeNet(2014)
 
+GoogLeNet是2014年ILSVRC在分类任务上的冠军。
+
+该网络设计了Inception块来代替人工选择卷积的类型，然后堆叠Inception块，去掉了全连接层，使用了NIN中全局平均池化的思想。
+
+作者首先提出了下图的Inception的基本结构
+
+![Inception module基本结构](https://img-blog.csdn.net/20160225155336279)
+
+该模块有如下特点：
+
+- 与传统的卷积不同，该卷积拓宽了网络的宽度
+
+- 采用了1、3、5这样不同尺度的卷积核，在步长为1时，可以设置分别填充的padding分别为0、1、2，这样卷积之后特征图的维度就一致了，方便进行拼接
+
+- 由于pooling在很多地方都很有用，所以Inception中也嵌入了
+
+为了进一步减少参数量，GoogLeNet借鉴了NiN网络的 $1 \times 1$ 卷积。
+
+在没改进时Inception的参数量为（不考虑偏置）,若输入和输出的通道数都为$ C1 = 16$
+
+$ (1\times 1 + 3\times 3 + 5\times 5 + 0) \times 16 \times 16 = 8960$
+
+在1、3、5前加上 $1 \times 1$ 卷积层可以有效地减少特征图厚度，从而减少参数量。
+
+下图为Inception模块
+
+![Inception改进结构](https://img-blog.csdn.net/20160225155351172)
+
+以单个的 $5 \times 5 $的卷积为例计算参数量，若输入上一层的输出通道数为128，卷积核个数为256。
+
+有该卷积的参数量为，$ 128 \times 5 \times 5 \times 256 = 819200$
+
+若该 $ 5 \times 5 $卷积前添加一个 32个$ 1\times 1$的卷积，那么
+
+该卷积层的参数量为，$ 128 \times 1 \times 1 \times 32 +  32 \times 5 \times 5 \times 256 = 204800$
+
+可以看出加了 $1\times 1$ 卷积之后，原参数量是新参数量的$ 819200 / 204800 = 4$倍。
+
+再来看整个结构，若Inception右边网络设置 $1\times 1$卷积核的个数为$C2 = 8$，满足$C1>C2$
+
+那么网络的的参数量为$ C1 \times 1 \times 1 \times C2 + 3\times (C1 \times 1 \times 1 \times C2) + C2 \times 3 \times 3 \times C1 + C2 \times 5 \times 5 \times C1   $
+
+
+
+
+
+
+
+
+
+
 
        Szegedy, C., Liu, W., Jia, Y., Sermanet, P., Reed, S., & Anguelov, D. & Rabinovich, A.(2015). Going deeper with convolutions. In Proceedings of the IEEE conference on computer vision and pattern recognition (pp. 1-9).
-       
+
+后续还有Inception-v2、Inception-v3、Inception-v4
+
 ---
 
 ### SSPNet(2015)
@@ -507,6 +590,8 @@ VGG块的组成规律是：
 ---
 
 ### ResNet(2016)
+
+
 
         He, K., Zhang, X., Ren, S., & Sun, J. (2016). Deep residual learning for image recognition. In Proceedings of the IEEE conference on computer vision and pattern recognition (pp. 770-778).
 
@@ -574,3 +659,5 @@ VGG块的组成规律是：
 全连接层 Full Connected Layer
 
 ILSVRC ImageNet Large Scale Visual Recognition Competition
+
+全局平均池化层 GAP Global Average Pooling
