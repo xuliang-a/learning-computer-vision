@@ -757,7 +757,27 @@ DenseNet由若干个密集连接块组成，密集连接块之间通过转换层
    
    - Average Pooling $2 \times 2$, 步长2， 输出特征图 $28\times 28\times (32\times compression)$
    
+   设压缩因子compression为1
 
+5. Dense Block 2 输入特征图 $28\times 28\times 32$，输出特征图 $28\times 28\times 32$
+
+6. Transition 2 输入特征图 $28\times 28\times 32$，输出特征图 $14\times 14\times 32$
+   
+7. Dense Block 3 输入特征图 $14\times 14\times 32$，输出特征图 $14\times 14\times 32$
+
+8. Transition 3 输入特征图 $14\times 14\times 32$，输出特征图 $7\times 7\times 32$
+
+9. Classification Block
+
+   - BN 输出特征图 $7\times 7\times 32$
+
+   - RELU 输出特征图 $7\times 7\times 32$
+
+   - Poolling $7\times 7$ ,stride=1 , 输出特征图 $1\times 1\times 32$
+
+   - flatten 将 $1\times 1\times 32$ 铺平成 $1\times 32$
+
+   - Linear全连接，输出 $1\times classes_num$
 
 DenseNet论文：
 
