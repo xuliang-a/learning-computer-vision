@@ -119,8 +119,6 @@ $1\times 1 $卷积的作用主要为以下两点：
 
 假设将通道维当作特征维，将高和宽维度上的元素当成数据样本，那么 1×1 卷积层的作用与全连接层等价。
 
-![](https://github.com/xuliang-a/learning-computer-vision/raw/master/ch01_卷积神经网络/ch01_img/1乘1卷积和全连接的关系.png)
-
 ![](ch01_img/1乘1卷积和全连接的关系.png)
 
 摘自《动手学深度学习》
