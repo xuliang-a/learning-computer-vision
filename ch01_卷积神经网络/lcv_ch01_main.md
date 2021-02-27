@@ -680,7 +680,7 @@ DenseNet主要借鉴了ResNet和Inception的思想。卷积神经网络提高效
 
 如下图使一个5层的dense块
 
-![如下图使一个5层的dense块]([https://upload-images.jianshu.io/upload_images/5067993-6c3dbdc5ece30919?imageMogr2/auto-orient/strip|imageView2/2/format/webp)
+![如下图使一个5层的dense块](https://upload-images.jianshu.io/upload_images/5067993-6c3dbdc5ece30919?imageMogr2/auto-orient/strip|imageView2/2/format/webp)
 
 从图中可以看出稠密块将所有层连接了起来，也就是每一层的输入来自前面所有层的输出。
 
