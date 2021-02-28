@@ -147,7 +147,7 @@ ROI映射的目标是原图ROI区域的中心点尽量接近特征图对应区�
 
 对于特征图上的(x’,y’)，则有结论该坐标点在原始输入图像上的对应点(x,y)=(S * x’,S * y’) 其中S代表所有卷积层和池化层的stride乘积。
 
-然后根据前面说的左上角向右下角偏移，右下角向左上角偏移再调整一下得到左上角 $(x^' = \lfloor x/S \rfloor + 1, y^' = \lfloor y/S \rfloor + 1)$，右下角点$(x^' = \lceil x/S \rceil - 1, y^' = \lceil y/S \rceil - 1)$
+然后根据前面说的左上角向右下角偏移，右下角向左上角偏移再调整一下得到左上角 $(x' = \lfloor x/S \rfloor + 1, y' = \lfloor y/S \rfloor + 1)$，右下角点$(x' = \lceil x/S \rceil - 1, y' = \lceil y/S \rceil - 1)$
 
 
 ## Q4-Fast RCNN的ROI Pooling是什么
