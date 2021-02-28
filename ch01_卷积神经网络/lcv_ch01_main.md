@@ -854,7 +854,9 @@ DenseNet论文：
 
         Huang, G., Liu, Z., Weinberger, K. Q., & van der Maaten, L. (2017). Densely connected convolutional networks. In Proceedings of the IEEE conference on computer vision and pattern recognition (Vol. 1, No. 2).
 
-参考博主https://blog.csdn.net/chenyuping333
+网络可以参考博主https://blog.csdn.net/chenyuping333
+
+Caffe和Tensorflow的实现可以参考《深度学习卷积神经网络从入门到精通》
 
 ## Q9-用于分类的卷积神经网络最后几层一般是什么层
 
