@@ -199,7 +199,7 @@ RPN网络是候选区域网络，用来替代选择性搜索来生成ROI，这�
 
 - 使用填充为1的 $3\times 3$ 卷积层变换卷积神经网络的输出，并将输出通道数记为 c 。这样，卷积神经网络为图像抽取的特征图中的每个单元均得到一个长度为 c 的新特征。
 
-- 以特征图每个单元为中心，生成k个不同大小和宽高比的锚框并标注它们，对于一个$ w\times h$ 的特征图，就会产生 $k\times w\times h $个ROI提议区域。
+- 以特征图每个单元为中心，生成k个不同大小和宽高比的锚框并标注它们，对于一个$ w\times h$ 的特征图，就会产生 $k\times w\times h $个锚框。
 
 ![](https://github.com/scutan90/DeepLearning-500-questions/blob/master/ch08_%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B/img/ch8/8.2.3-4.png)
   
