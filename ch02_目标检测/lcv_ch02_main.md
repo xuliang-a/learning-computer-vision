@@ -4,13 +4,19 @@
 
 * [Q2-两步模型的发展过程是什么样的？](#Q2-两步模型的发展过程是什么样的)
 
-* [](#Q3-特征图feature map和提议区域ROI是怎么映射的)
+  - [RCNN](#RCNN)
+
+  - [Fast RCNN](#Fast-RCNN)
+
+  - [Faster RCNN](#Faster-RCNN)
+
+* [Q3-Fast RCNN的ROI是如何映射到特征图上的？](#Fast-RCNN的ROI是如何映射到特征图上的)
 
 * [](#Q4-ROI pooling是什么)
 
 * [](#Q5-什么是RPN网络)
 
-* []()
+* [](#处理的流程是什么)
 
 * []((#Q2-两步模型的发展过程是什么样的))
 
@@ -93,43 +99,31 @@ RCNN是目标检测的奠基之作，RCNN是第一个将卷积神经网络用于
 ![](https://github.com/scutan90/DeepLearning-500-questions/blob/master/ch08_%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B/img/ch8/8.2.3-1.png)
 ![](https://github.com/scutan90/DeepLearning-500-questions/blob/master/ch08_%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B/img/ch8/8.2.3-2.png)
 
-## Q3-特征图Feature Map和提议区域ROI是怎么映射的
+## Q3-Fast RCNN的ROI是如何映射到特征图上的
 
-
+ROI是Region of Interest的简写，指的是由选择性搜索提取的候选区域。
 
 ROI映射的目标是原图ROI区域的中心点尽量接近特征图对应区域的中心点。
 
-我看到了如下映射方法：
+关于ROI映射我看到了如下映射方法，暂时没找到讲的很清楚的做法：
 
-（1） 把各个坐标除以“输入图片与Feature Map的大小的比值”，得到了feature map上的box坐标。（摘自《深度学习500问》）
+- 把在输入图像上的ROI各个坐标除以“输入图片与Feature Map的大小的比值”，得到了feature map上的box坐标。（摘自《深度学习500问》）
 
-（2） SPPNet的ROI映射
+  例子,输入图像 $600 \times 800$, 特征图 $38 \times 50$，原图的ROI左上角坐标(30,40)、左下角坐标(200,400)，
+  
+  那么有在特征图上的左上角坐标 $( 30 \times (38/600), 40 \times (50/800) )$和左下角坐标 $( 200 \times (38/600), 400 \times (50/800) )$，四舍五入后得到(2,3)和(13, 25)
 
-在SPPNet中，假设（x’,y’）表示特征图上坐标点，（x,y）表示该坐标点在原始输入图像上的对应点。则有结论 （x,y）=(S * x’,S * y’) 其中S代表所有卷积层和池化层的stride乘积
+- SPPNet的ROI映射（网上大部分博客所介绍的）
 
-为了处理有小数的情况，同时左上角点和右下角点都向图像内侧近似(左上角要向右下偏移，右下角要想要向左上偏移)，所以左上角加一 右下角减一 同时为了减小这种近似产生的误差 所以左上角向下取整 右下角向上取整
+在SPPNet中，假设(x’,y’)表示特征图上坐标点，(x,y)表示该坐标点在原始输入图像上的对应点。则有结论 (x,y)=(S * x’,S * y’) 其中S代表所有卷积层和池化层的stride乘积
+
+为了处理有小数的情况，同时左上角点和右下角点都向图像内侧近似(左上角要向右下偏移，右下角要想要向左上偏移)，所以左上角加一 右下角减一 同时为了减小这种近似产生的误差 所以左上角向下取整 右下角向上取整。
 
 最后，左上角点 x’= ⌊x/S⌋+1 右下角点 x’=⌈x/S⌉-1
 
 该推导用到的计算公式：
 
-首先要说明一下卷积输出尺寸的计算，卷积核边长为k，填充是p，步长是s，则有
-
-卷积层输出尺寸 = (卷积层输入尺寸 – k + 2p)/s + 1
-
-那么有感受野，也就是卷积结果对应输入的区域大小的计算方法
-
-卷积层的输入尺寸（感受野） = (卷积层输出尺寸-1)*s + k -2p
-
-根据这个公式可以从后向前计算感受野，向前一层一层计算就可以计算到在原始图片上对应的感受野了。
-
-感受野坐标计算
-
-$$
-p_i = s * p_{i+1} + ((k-1)/2-p)
-$$
-
-坐标计算例子
+若卷积核边长为k，填充是p，步长是s，则有坐标计算，$ p_i = s \times p_i+1 + ((k-1)/2-p)$
 
 ![](https://pic2.zhimg.com/v2-c1ce5a16dbd75553be1a9ea8921f3c35_r.jpg)
 
@@ -140,7 +134,8 @@ $$
 ![](https://img-blog.csdn.net/20181011190140223?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2E5NDA5MDI5NDA5MDI=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70)
 
 
-## Q4-ROI Pooling是什么
+## Q4-Fast RCNN的ROI Pooling是什么
+
 ROI pooling层是pooling层的一种，由于是针对ROI进行的池化操作，所以称为ROI pooling
 
 第一步，根据输入的图像将提议区域映射到特征图对应的位置。
@@ -154,12 +149,15 @@ ROI pooling层是pooling层的一种，由于是针对ROI进行的池化操作�
 ![](https://github.com/scutan90/DeepLearning-500-questions/blob/master/ch08_%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B/img/ch8/8.1.11.gif)
 
 
-## Q5-什么是RPN网络
+
+## Q5-Faster RCNN的RPN网络是什么
 
 RPN网络是候选区域网络，这个新颖的RPN网络实质上是一种基于神经网络的的二分类和边界框回归模型；
 ![](https://github.com/scutan90/DeepLearning-500-questions/blob/master/ch08_%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B/img/ch8/8.2.3-3.png)
 首先在特征图上做3*3卷积核的滑动操作，每个滑动位置考虑k种可能的参考窗口，也就是做k次预测，对于一个W*H的特征图，就会得到产生k*W*H的ROI提议区域，k为3，在分类层得到2k个得分，该得分用于估计k个区域是前景和背景的概率，在回归层得到4k个坐标偏移量，用于边界框回归。
 ![](https://github.com/scutan90/DeepLearning-500-questions/blob/master/ch08_%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B/img/ch8/8.2.3-4.png)
+
+## 
 
 # 中英文词汇
 
