@@ -12,11 +12,11 @@
 
 * [Q3-Fast RCNN的ROI是如何映射到特征图上的？](#Q3-Fast-RCNN的ROI是如何映射到特征图上的)
 
-* [](#Q4-ROI Pooling是什么)
+* [Q4-Fast-RCNN的ROI-Pooling是什么？](#Q4-Fast-RCNN的ROI-Pooling是什么)
 
 * [](#Q5-什么是RPN网络)
 
-* [](#处理的流程是什么)
+* [](#Q6-处理的流程是什么)
 
 * []((#Q2-两步模型的发展过程是什么样的))
 
@@ -113,7 +113,7 @@ ROI映射的目标是原图ROI区域的中心点尽量接近特征图对应区�
   
   那么有在特征图上的左上角坐标 $( 30 \times (38/600), 40 \times (50/800) )$和左下角坐标 $( 200 \times (38/600), 400 \times (50/800) )$，四舍五入后得到(2,3)和(13, 25)
 
-- SPPNet的ROI映射（网上大部分博客所介绍的）
+- SPPNet的ROI映射
 
 在SPPNet中，假设(x’,y’)表示特征图上坐标点，(x,y)表示该坐标点在原始输入图像上的对应点。则有结论 (x,y)=(S * x’,S * y’) 其中S代表所有卷积层和池化层的stride乘积
 
@@ -147,24 +147,22 @@ ROI映射的目标是原图ROI区域的中心点尽量接近特征图对应区�
 
 对于特征图上的(x’,y’)，则有结论该坐标点在原始输入图像上的对应点(x,y)=(S * x’,S * y’) 其中S代表所有卷积层和池化层的stride乘积。
 
-然后根据前面说的左上角向右下角偏移，右下角向左上角偏移再调整一下得到左上角 $(x' = \lfloor x/S \rfloor + 1, y' = \lfloor y/S \rfloor + 1)$，右下角点$(x' = \lceil x/S \rceil - 1, y' = \lceil y/S \rceil - 1)$
+然后根据前面说的左上角向右下角偏移，右下角向左上角偏移再调整一下得到左上角点 $(x' = \lfloor x/S \rfloor + 1, y' = \lfloor y/S \rfloor + 1)$，右下角点$(x' = \lceil x/S \rceil - 1, y' = \lceil y/S \rceil - 1)$
 
 
 ## Q4-Fast RCNN的ROI Pooling是什么
 
-ROI pooling层是pooling层的一种，由于是针对ROI进行的池化操作，所以称为ROI pooling
+ROI pooling层是pooling层的一种，由于是针对ROI进行的池化操作，所以称为ROI Pooling
 
-第一步，根据输入的图像将提议区域映射到特征图对应的位置。
+第一步，根据输入的图像将提议区域ROI映射到特征图上对应的位置；
 
-第二步，将映射后的区域划分为相同大小的尺寸的sections
+第二步，将映射后的区域划分为与输出维度相同的切片；
 
-第三步，对每个sections进行最大池化操作
+第三步，对每个切片进行最大池化操作。
 
-这样就可以从不同尺寸的ROI提议区域得到固定大小的特征图。
+这样就可以从不同尺寸的ROI提议区域得到固定大小的特征图，该ROI Pooling的结果特征图不依赖ROI的尺寸。
 
 ![](https://github.com/scutan90/DeepLearning-500-questions/blob/master/ch08_%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B/img/ch8/8.1.11.gif)
-
-
 
 ## Q5-Faster RCNN的RPN网络是什么
 
