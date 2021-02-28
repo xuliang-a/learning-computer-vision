@@ -210,6 +210,26 @@ RPN网络是候选区域网络，用来替代选择性搜索来生成ROI，这�
 
 ## Q6-非极大值抑制处理的流程是什么
 
+目的：忽略相互间高度重叠的锚框（即：将Iou重叠率大于0.7框，比较分类的得分，保留分类的得分大的框）
+
+
+
+##非极大值抑制的方法：##
+
+例如：先假设有6个矩形框，根据分类器的类别分类概率做排序，假设从小到大属于车辆的概率 分别为A、B、C、D、E、F。
+
+1)从最大概率矩形框F开始，分别判断A~E与F的重叠度IOU是否大于某个设定的阈值;
+
+2)假设B、D与F的重叠度超过阈值，那么就扔掉B、D；并标记第一个矩形框F，是我们保留下来的。
+
+3)从剩下的矩形框A、C、E中，选择概率最大的E，然后判断E与A、C的重叠度，重叠度大于一定的阈值，那么就扔掉；并标记E是我们保留下来的第二个矩形框。
+
+就这样一直重复，找到所有被保留下来的矩形框。
+
+交并比（Intersection-over-Union，IoU），目标检测中使用的一个概念，是产生的候选框（candidate bound）与原标记框（ground truth bound）的交叠率，即它们的交集与并集的比值
+
+![](https://img-blog.csdnimg.cn/20181102130324332.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzMwNjM4ODMx,size_16,color_FFFFFF,t_70)
+
 ## Q7-单阶段检测算法的发展过程是什么样的
 
 ### YOLO
