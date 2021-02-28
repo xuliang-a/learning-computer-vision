@@ -182,9 +182,12 @@ ROI pooling层是pooling层的一种，由于是针对ROI进行的池化操作�
 
 ## Q5-Faster RCNN的RPN网络是什么
 
-RPN网络是候选区域网络，这个新颖的RPN网络实质上是一种基于神经网络的的二分类和边界框回归模型；
+RPN网络是候选区域网络，用来替代选择性搜索来生成ROI，这个新颖的RPN网络实质上是一种基于神经网络的的二分类和边界框回归模型；
+
 ![](https://github.com/scutan90/DeepLearning-500-questions/blob/master/ch08_%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B/img/ch8/8.2.3-3.png)
-首先在特征图上做 $3\times 3$卷积核的滑动操作，每个滑动位置考虑k种可能的参考窗口，也就是做k次预测，对于一个W*H的特征图，就会得到产生k*W*H的ROI提议区域，k为3，在分类层得到2k个得分，该得分用于估计k个区域是前景和背景的概率，在回归层得到4k个坐标偏移量，用于边界框回归。
+
+首先在特征图上做 $3\times 3$卷积核的滑动操作，每个滑动位置考虑k种可能的候选区域，也就是做k次预测，对于一个$ w\times h$的特征图，就会得到产生 $k\times w\timesh 个ROI提议区域，例如下图的k取3，在分类层就会得到2k个得分，该得分用于估计k个区域是前景和背景的概率，在回归层得到4k个坐标偏移量，用于边界框回归。
+
 ![](https://github.com/scutan90/DeepLearning-500-questions/blob/master/ch08_%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B/img/ch8/8.2.3-4.png)
 
 ## 
