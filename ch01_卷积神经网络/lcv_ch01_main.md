@@ -630,6 +630,40 @@ GoogLeNet完整结构如下：
 
 ### SSPNet(2015)
 
+SSPNet的基础是ZFNet，通过将ZFNet的第一个全连接层替换为SPP层，即可得到SPPNet。
+
+传统CNN和SPPNet的对比
+
+![传统CNN和SPPNet的对比](https://ask.qcloudimg.com/http-save/5427637/6r5yce7xmx.jpeg?imageView2/2/w/1620)
+
+从上面的架构中可以看出，SPP-Net与经典CNN最主要的区别在于两点：
+
+第一点：不再需要对图像进行裁剪和放缩这样的预处理；
+
+第二点：在卷积层和全连接层交接的地方添加所谓的空间金字塔池化层，即（spatial pyramid pooling），这也是SPP-Net网络的核心所在。
+
+总结：SPP-Net在最后一个卷积层后，接入了金字塔池化层，使用这种方式，可以让网络输入任意的图片，而且还会生成固定大小的输出
+
+一个包含3级金字塔的SPPNet的结构图
+
+![一个包含3级金字塔的SPPNet的结构图](https://img-blog.csdn.net/20180912185049651?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3Byb2dyYW1taW5nZm9vbDU=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70)
+
+SPP层的目的是保证经过该层后，不管多大尺寸的输入，在金字塔的每一级都产生一个固定尺寸的输出，最后该层输出一个由金字塔各级的固定长度向量拼接而成的向量。
+
+具体的做法，可以理解将原来卷积神经网络中固定尺寸的池化窗口根据输入和输出修改成自适应的池化窗口。
+
+假设任意尺寸输出为 $a\times a$, 想要一个 $n\times n$的输出结果，那么有公式窗口尺寸 $window=\lceil a/n \rceil $ ，步长stride= $window=\lfloor a/n \rfloor $
+
+该计算公式本质上将特征图均分为 $n\times n$个子区域，然后对各个子区域max pooling
+
+当 $a\times a$为 $13 \times 13$时，要得到 $4 \times 4$的输出，$win=4, stride=3$
+
+当 $a\times a$为 $13 \times 13$时，要得到 $2 \times 2$的输出，$win=7, stride=6$
+
+当 $a\times a$为 $13 \times 13$时，要得到 $1 \times 1$的输出，$win=13, stride=13$
+
+这种多级池化的机制下会对目标的形变问题有很好的健壮性.
+
         He, K., Zhang, X., Ren, S., & Sun, J. (2015). Spatial pyramid pooling in deep convolutional networks for visual recognition. IEEE transactions on pattern analysis and machine intelligence, 37(9), 1904-1916.
         
 ---
