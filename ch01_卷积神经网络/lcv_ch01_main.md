@@ -16,19 +16,19 @@
 
 * [Q8：用于图像分类的卷积神经网络发展过程是怎样的？](##Q8：用于图像分类的卷积神经网络发展过程是怎样的？)
 
-  - [LeNet](###LeNet(1998))
+  - [LeNet(1998)](###LeNet(1998))
 
-  - [AlexNet](###AlexNet(2012))
+  - [AlexNet(2012)](###AlexNet(2012))
 
-  - [ZFNet](###ZFNet(2013))
+  - [ZFNet(2013)](###ZFNet(2013))
 
-  - [NiN](###NiN(2013))
+  - [NiN(2013)](###NiN(2013))
 
-  - [VGG](###VGG(2014))
+  - [VGG(2014)](###VGG(2014))
 
-  - [GoogLeNet](###GoogLenNet(2014))
+  - [GoogLeNet(2014)](###GoogLenNet(2014))
 
-  - [SSPNet](###SPPNet(2015))
+  - [SSPNet(2015)](###SPPNet(2015))
 
   - [ResNet(2015)](###ResNet(2015))
 
@@ -164,7 +164,7 @@ $1\times 1 $卷积的作用主要为以下两点：
 
 ## Q8：用于图像分类的卷积神经网络发展过程是怎样的？
 
-### LeNet（1998）
+### LeNet(1998)
 
 LeNet-5被广泛用于银行手写体数字识别，是现代卷积神经网络的原型, 这个名字来源于LeNet论文的第一作者Yann LeCun, 5是研究成果的代号.
 
@@ -228,7 +228,7 @@ LeNet论文:
 
 ---
 
-### AlexNet（2012）
+### AlexNet(2012)
 
 AlexNet取得了2012年的ILSVRC的竞赛冠军，由Hinton和他的学生Alex Krizhevsky设计的。也是在那年之后，更多的更深的神经网路被提出。
 
@@ -343,7 +343,7 @@ AlexNet论文：
     
 ---
 
-### ZFNet（2013）
+### ZFNet(2013)
 
 ZFNet是2013年ILSVRC的冠军。
 
@@ -373,7 +373,7 @@ ZFNet实际上是微调了AlexNet，然后通过转置卷积（Deconvolution）�
 
 ---
 
-### NiN（2013）
+### NiN(2013)
 
 Network In Network由Minlin等人提出，在CIFAR-10和CIFAR-100分类任务中达到了当时最好的水平。
 
@@ -444,7 +444,7 @@ NiN论文：
 
       Lin, M., Chen, Q., & Yan, S. (2013). Network in network. arXiv preprint arXiv:1312.4400.
 ---
-### VGG（2014）
+### VGG(2014)
 
 VGG是Oxford牛津大学的Visual Geometry Group的组提出，并在2014年ILSVRC取得亚军。VGG研究的初衷是想搞清楚卷积网络深度是如何影响大规模图像分类与识别的精度和准确率的，最初是VGG-16号称非常深的卷积网络全称为（GG-Very-Deep-16 CNN），VGG在加深网络层数同时为了避免参数过多，在所有层都采用3x3的小卷积核。
 
@@ -589,6 +589,9 @@ GoogLeNet是2014年ILSVRC在分类任务上的冠军。
 $ (1\times 1 + 3\times 3 + 5\times 5 + 0) \times 16 \times 16 = 8960$
 
 在1、3、5前加上 $1 \times 1$ 卷积层可以有效地减少特征图厚度，从而减少参数量。
+
+这种结构也称为卷积神经网络的瓶颈结构，即在计算比较大的卷积层之前先用一个 $1 \times 1$ 卷积来压缩大卷积层输入特征图的通道数，以减小计算量，在大卷积层完成计算后，根据实际需要，有时候会再次使用一个 $1 \times 1$ 卷积对输出层特征图的通道数复原。
+
 
 下图为Inception模块
 
