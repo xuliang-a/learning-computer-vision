@@ -634,7 +634,7 @@ SSPNet的基础是ZFNet，通过将ZFNet的第一个全连接层替换为SPP层�
 
 传统CNN和SPPNet的对比
 
-![传统CNN和SPPNet的对比](https://ask.qcloudimg.com/http-save/5427637/6r5yce7xmx.jpeg?imageView2/2/w/1620)
+![传统CNN和SPPNet的对比](ch01_img/传统CNN和SPPNet.jpeg)
 
 从上面的架构中可以看出，SPPNet与经典CNN最主要的区别在于两点：
 
