@@ -105,7 +105,7 @@ ROI是Region of Interest的简写，指的是由选择性搜索提取的候选�
 
 ROI映射的目标是原图ROI区域的中心点尽量接近特征图对应区域的中心点。
 
-关于ROI映射我看到了如下映射方法，暂时没找到讲的很清楚的做法：
+关于ROI映射我看到了如下映射方法：
 
 - 把在输入图像上的ROI各个坐标除以“输入图片与Feature Map的大小的比值”，得到了feature map上的box坐标。（摘自《深度学习500问》）
 
@@ -125,17 +125,29 @@ ROI映射的目标是原图ROI区域的中心点尽量接近特征图对应区�
 
 若卷积核边长为k，填充是p，步长是s，则有如下坐标计算，
 
-对于卷积和池化层，$ p_i = s \times p_{i+1} + ((k-1)/2-p)$
+- 对于卷积和池化层，$ p_i = s \times p_{i+1} + ((k-1)/2-p)$
 
-对于激活层，$ p_i = p_{i+1}$
+- 对于激活层，$ p_i = p_{i+1}$
 
-![](https://pic2.zhimg.com/v2-c1ce5a16dbd75553be1a9ea8921f3c35_r.jpg)
+一个计算卷积后图像中坐标的例子，
 
-为了简化计算，可以将$$((k-1)/2-p)$$化简，将卷积层和池化层的填充设置为小于等于滤波器尺寸一半的最大整数
+![一个计算卷积后图像中坐标的例子](https://pic2.zhimg.com/v2-c1ce5a16dbd75553be1a9ea8921f3c35_r.jpg)
 
-那么，
+为了简化计算，可以将$$((k-1)/2-p)$$化简，将每一个卷积层和池化层的填充设置为小于等于当前层滤波器尺寸一半的最大整数（就是取下限），即 $p=\lfloor k_i / 2 \rfloor$。
 
-![](https://img-blog.csdn.net/20181011190140223?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2E5NDA5MDI5NDA5MDI=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70)
+那么，就有 $ p_i = S_i \times p_{i+1} + ((k_i-1)/2 - \lfloor k_i / 2 \rfloor)$
+
+- 当 $k_i$为奇数时, $((k_i-1)/2 - \lfloor k_i / 2 \rfloor) = 0$，有 $p_i = S_i \times p_{i+1} $
+
+- 当 $k_i$为偶数时，$((k_i-1)/2 - \lfloor k_i / 2 \rfloor) = -1/2$，有 $p_i = S_i \times p_{i+1} - 1/2$
+
+因为 $p_i$是坐标值，不可能取到小数，所以可以得到 $p_i = S_i \times p_{i+1} $，公式这样就得到了化简， $p_i$ 只跟 $p_{i+1}$和步长有关。
+
+将公式一层一层进行级联，得到 $p_0 = S \times p_{i+1}$, 其中 $S=\prod_0 i = s_i$;
+
+对于特征图上的(x’,y’)，则有结论该坐标点在原始输入图像上的对应点(x,y)=(S * x’,S * y’) 其中S代表所有卷积层和池化层的stride乘积。
+
+然后根据前面说的左上角向右下角偏移，右下角向左上角偏移再调整一下。
 
 
 ## Q4-Fast RCNN的ROI Pooling是什么
