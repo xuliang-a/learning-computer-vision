@@ -636,13 +636,11 @@ SSPNet的基础是ZFNet，通过将ZFNet的第一个全连接层替换为SPP层�
 
 ![传统CNN和SPPNet的对比](https://ask.qcloudimg.com/http-save/5427637/6r5yce7xmx.jpeg?imageView2/2/w/1620)
 
-从上面的架构中可以看出，SPP-Net与经典CNN最主要的区别在于两点：
+从上面的架构中可以看出，SPPNet与经典CNN最主要的区别在于两点：
 
 第一点：不再需要对图像进行裁剪和放缩这样的预处理；
 
 第二点：在卷积层和全连接层交接的地方添加所谓的空间金字塔池化层，即（spatial pyramid pooling），这也是SPP-Net网络的核心所在。
-
-总结：SPP-Net在最后一个卷积层后，接入了金字塔池化层，使用这种方式，可以让网络输入任意的图片，而且还会生成固定大小的输出
 
 一个包含3级金字塔的SPPNet的结构图
 
@@ -650,7 +648,7 @@ SSPNet的基础是ZFNet，通过将ZFNet的第一个全连接层替换为SPP层�
 
 SPP层的目的是保证经过该层后，不管多大尺寸的输入，在金字塔的每一级都产生一个固定尺寸的输出，最后该层输出一个由金字塔各级的固定长度向量拼接而成的向量。
 
-具体的做法，可以理解将原来卷积神经网络中固定尺寸的池化窗口根据输入和输出修改成自适应的池化窗口。
+金字塔中每一级池化具体的做法，可以理解将原来卷积神经网络中固定尺寸的池化窗口根据输入和输出修改成自适应的池化窗口。
 
 假设任意尺寸输出为 $a\times a$, 想要一个 $n\times n$的输出结果，那么有公式窗口尺寸 $window=\lceil a/n \rceil $ ，步长stride= $window=\lfloor a/n \rfloor $
 
@@ -663,6 +661,8 @@ SPP层的目的是保证经过该层后，不管多大尺寸的输入，在金�
 当 $a\times a$为 $13 \times 13$时，要得到 $1 \times 1$的输出，$win=13, stride=13$
 
 这种多级池化的机制下会对目标的形变问题有很好的健壮性.
+
+若网络的输入要处理任意大小的图像时，要至少考虑两种不同的预定义大小，比如 $224 \times 224$和 $180 \times 180$，当输入是 $224 \times 224$时将图像缩放成 $180 \times 180$，从而可以实现一个固定尺寸的网络。
 
         He, K., Zhang, X., Ren, S., & Sun, J. (2015). Spatial pyramid pooling in deep convolutional networks for visual recognition. IEEE transactions on pattern analysis and machine intelligence, 37(9), 1904-1916.
         
