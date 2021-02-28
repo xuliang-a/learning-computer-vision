@@ -226,7 +226,7 @@ LeNet论文:
 
 ### AlexNet 2012
 
-AlexNet取得了2012年的ILSVRC的竞赛冠军，由Hinton和他的学生Alex Krizhevsky设计的。也是在那年之后，更多的更深的神经网路被提出。
+AlexNet取得了2012年的ImageNet大规模视觉识别挑战赛（ImageNet Large Scale Visual Recognition Challenge，ILSVRC）的竞赛冠军，由Hinton和他的学生Alex Krizhevsky设计的。也是在那年之后，更多的更深的神经网路被提出。
 
 #### 1. 总体结构
 
@@ -246,7 +246,7 @@ AlexNet取得了2012年的ILSVRC的竞赛冠军，由Hinton和他的学生Alex K
 
 1. 输入图像$227\times 227\times 3$
 
-2. 卷积层1（96个11*11*3的卷积核，步长是4）
+2. 卷积层1（96个 $11\times 11\times 3$的卷积核，步长是4）
 
    - 计算输出卷积形状，
 
@@ -258,15 +258,15 @@ AlexNet取得了2012年的ILSVRC的竞赛冠军，由Hinton和他的学生Alex K
 
      $\lfloor(55-3+0+2)/2 \rfloor * \lfloor(55-3+0+2)/2 \rfloor = 27 \times 27$
 
-     得出输出特征图形状为$27\times 27\times 96$
+     得出输出特征图形状为 $27\times 27\times 96$
 
-3. 卷积层2(256个 $5 \times 5 \times 96$的卷积核，分别填充2（上下左右分别填充），步长1)
+3. 卷积层2（256个 $5 \times 5 \times 96$的卷积核，分别填充2（上下左右分别填充），步长1）
 
    - 计算输出卷积形状，
 
      $\lfloor(27-5+4+1)/1 \rfloor * \lfloor(27-5+4+1)/1 \rfloor = 27 \times 27$
 
-     得出输出特征图形状为$27\times 27 \times 256$
+     得出输出特征图形状为 $27\times 27 \times 256$
 
    - 计算输出池化形状（$3\times 3, s = 2$）
 
@@ -280,7 +280,7 @@ AlexNet取得了2012年的ILSVRC的竞赛冠军，由Hinton和他的学生Alex K
 
      $\lfloor(13-3+2+1)/1 \rfloor * \lfloor(13-3+2+1)/4 \rfloor = 13 \times 13$
 
-     得出输出特征图形状为$13\times 13 \times 384$
+     得出输出特征图形状为 $13\times 13 \times 384$
 
 5. 卷积层4（384个 $3\times 3\times 384$的卷积核，填充1，步长1）
 
@@ -288,7 +288,7 @@ AlexNet取得了2012年的ILSVRC的竞赛冠军，由Hinton和他的学生Alex K
 
      $\lfloor(13-3+2+1)/1 \rfloor * \lfloor(13-3+2+1)/4 \rfloor = 13 \times 13$
 
-     得出输出特征图形状为$13\times 13 \times 384$
+     得出输出特征图形状为 $13\times 13 \times 384$
 
 6. 卷积层5(256个 $3 \times 3 \times 384$的卷积核，分别填充1（上下左右分别填充），步长1)
 
@@ -318,20 +318,20 @@ AlexNet的卷积用法:
 - $11\times 11 $ 的卷积核，步长为4，没有填充，正常计算
 
 - $5\times 5 $ 的卷积核，分别填充为2和步长为1，使输出特征图的尺寸和输入一致
-- 
-- $3\times 3 $ 的卷积核，分别填充为2和步长为1，使输出特征图的尺寸和输入一致
+
+- $3\times 3 $ 的卷积核，分别填充为1和步长为1，使输出特征图的尺寸和输入一致
 
 AlexNet的池化用法:
 
 - 输入特征图的尺寸为奇数，$3\times 3$，步长为2，没有填充，使输出特征图的尺寸变为输入的一半取下限
 
-  该池化的池化范围3>步长属于重叠池化。
+  该池化的池化范围3>步长，属于重叠池化。
 
 ##### 2 多个GPU
 
 可参考博主https://blog.csdn.net/chenyuping333的图
 
-![](https://img-blog.csdn.net/20180829094658984?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NoZW55dXBpbmczMzM=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70)
+![多GPU的AlexNet计算](https://img-blog.csdn.net/20180829094658984?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NoZW55dXBpbmczMzM=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70)
 
 AlexNet论文：
 
@@ -341,9 +341,9 @@ AlexNet论文：
 
 ### ZFNet 2013
 
-ZFNet是2013年ILSVRC的冠军。
+ZFNet是2013年ILSVRC的冠军。ZFNet实际上是微调了AlexNet，然后通过转置卷积（Deconvolution）的方式可视化各层的输出特征图，提高了可解释性。
 
-![](https://img-blog.csdn.net/20180829101607795?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NoZW55dXBpbmczMzM=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70)
+![ZFNet结构](https://img-blog.csdn.net/20180829101607795?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NoZW55dXBpbmczMzM=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70)
 
 注意，
 
@@ -364,8 +364,6 @@ ZFNet的池化用法:
 - 和AlexNet采用相同的池化方式，$3\times 3$，步长为2，没有填充，使输出特征图的尺寸变为输入的一半
 
   该池化的池化范围3>步长2属于重叠池化。
-  
-ZFNet实际上是微调了AlexNet，然后通过转置卷积（Deconvolution）的方式可视化各层的输出特征图，提高了可解释性。
 
 ---
 
@@ -389,7 +387,7 @@ Network In Network由Minlin等人提出，在CIFAR-10和CIFAR-100分类任务中
 
 ![跨通道cccp层示意图](http://img.blog.csdn.net/20160623191820505)
 
-NIN网络由3个cccp层和一个全局平均池化层（Global Average Pooling）组成。
+NIN网络由3个cccp层和一个全局平均池化层（Global Average Pooling，GAP）组成。
 
 全连接层与全局平均池化对比图, 节省参数。
 
@@ -882,9 +880,9 @@ DenseNet论文：
 
 # 中英词汇对照
 
-卷积神经网络 CNN Convolutional Neural Network
+卷积神经网络 Convolutional Neural Network，CNN
 
-多层感知机 MLP Multi-Layer Perceptron
+多层感知机 Multi-Layer Perceptron，MLP
 
 输入层 Input Layer
 
@@ -912,6 +910,8 @@ DenseNet论文：
 
 全连接层 Full Connected Layer
 
-ILSVRC ImageNet Large Scale Visual Recognition Competition
+ImageNet大规模视觉识别挑战赛 ImageNet Large Scale Visual Recognition Competition，ILSVRC
+
+转置卷积 Deconvolution
 
 全局平均池化层 GAP Global Average Pooling
