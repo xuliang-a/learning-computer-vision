@@ -10,9 +10,9 @@
 
   - [Faster RCNN](#Faster-RCNN)
 
-* [Q3-Fast RCNN的ROI是如何映射到特征图上的？](#Fast-RCNN的ROI是如何映射到特征图上的)
+* [Q3-Fast RCNN的ROI是如何映射到特征图上的？](#Q3-Fast-RCNN的ROI是如何映射到特征图上的)
 
-* [](#Q4-ROI pooling是什么)
+* [](#Q4-ROI Pooling是什么)
 
 * [](#Q5-什么是RPN网络)
 
@@ -123,7 +123,11 @@ ROI映射的目标是原图ROI区域的中心点尽量接近特征图对应区�
 
 该推导用到的计算公式：
 
-若卷积核边长为k，填充是p，步长是s，则有坐标计算，$ p_i = s \times p_i+1 + ((k-1)/2-p)$
+若卷积核边长为k，填充是p，步长是s，则有如下坐标计算，
+
+对于卷积和池化层，$ p_i = s \times p_{i+1} + ((k-1)/2-p)$
+
+对于激活层，$ p_i = p_{i+1}$
 
 ![](https://pic2.zhimg.com/v2-c1ce5a16dbd75553be1a9ea8921f3c35_r.jpg)
 
