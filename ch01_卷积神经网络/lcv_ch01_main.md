@@ -578,14 +578,11 @@ GoogLeNet是2014年ILSVRC在分类任务上的冠军。
 
 为了进一步减少参数量，GoogLeNet借鉴了NiN网络的 $1 \times 1$ 卷积。
 
-在没改进时Inception的参数量为（不考虑偏置）,若输入和输出的通道数都为$ C1 = 16$
+在没改进时Inception的参数量为（不考虑偏置）,若输入和各支路输出的通道数都为$ C1 = 16$
 
 $ (1\times 1 + 3\times 3 + 5\times 5 + 0) \times 16 \times 16 = 8960$
 
 在1、3、5前加上 $1 \times 1$ 卷积层可以有效地减少特征图厚度，从而减少参数量。
-
-这种结构也称为卷积神经网络的瓶颈结构，即在计算比较大的卷积层之前先用一个 $1 \times 1$ 卷积来压缩大卷积层输入特征图的通道数，以减小计算量，在大卷积层完成计算后，根据实际需要，有时候会再次使用一个 $1 \times 1$ 卷积对输出层特征图的通道数复原。
-
 
 下图为Inception模块
 
@@ -603,10 +600,12 @@ $ (1\times 1 + 3\times 3 + 5\times 5 + 0) \times 16 \times 16 = 8960$
 
 再来看整个结构，若Inception右边网络设置 $1\times 1$卷积核的个数为$C2 = 8$，满足$C1>C2$
 
-那么网络的的参数量为$ C1 \times 1 \times 1 \times C1 + 3\times (C1 \times 1 \times 1 \times C2) + C2 \times 3 \times 3 \times C1 + C2 \times 5 \times 5 \times C1   $
-即$ 16 \times 1 \times 1 \times 16 + 3\times (16 \times 1 \times 1 \times 8) + 8 \times 3 \times 3 \times 16 + 8 \times 5 \times 5 \times 16   = 3200$
+那么网络的的参数量为$ 2\times C1 \times 1 \times 1 \times C1 + 2\times (C1 \times 1 \times 1 \times C2) + C2 \times 3 \times 3 \times C1 + C2 \times 5 \times 5 \times C1   $
+即$ 2\times 16 \times 1 \times 1 \times 16 + 2\times (16 \times 1 \times 1 \times 8) + 8 \times 3 \times 3 \times 16 + 8 \times 5 \times 5 \times 16   = 5120$
 
 可以看出在保证输出尺寸的情况下，减少了很多参数。
+
+这种结构也称为卷积神经网络的瓶颈结构，即在计算比较大的卷积层之前先用一个 $1 \times 1$ 卷积来压缩大卷积层输入特征图的通道数，以减小计算量，在大卷积层完成计算后，根据实际需要，有时候会再次使用一个 $1 \times 1$ 卷积对输出层特征图的通道数复原。
 
 GoogLeNet完整结构如下：
 
@@ -632,21 +631,21 @@ GoogLeNet完整结构如下：
 
 6. Inception层
 
-   - 通道1：$ 1\times 1$卷积层，核个数64，输出尺寸$28\times 28 \times 64$;
+   - 支路1：$ 1\times 1$卷积层，核个数64，输出尺寸$28\times 28 \times 64$;
     
-   - 通道2：
+   - 支路2：
    
       + $1 \times 1$卷积层，核个数96，输出尺寸 $28 \times 28 \times 96$;
        
       + $3\times 3$卷积层，核个数128，分别padding = 1, 输出尺寸 $ 28 \times 28 \times 128$;
 
-   - 通道3：
+   - 支路3：
    
       + $1 \times 1$卷积层，核个数32，输出尺寸 $28 \times 28 \times 32$;
        
       + $5\times 5$卷积层，核个数32，分别padding = 2, 输出尺寸 $ 28 \times 28 \times 32$;
 
-   - 通道4：
+   - 支路4：
    
       + $3\times 3$的pooling层，分别padding为1， 输出尺寸 $ 28\times 28 \times 192$
 
