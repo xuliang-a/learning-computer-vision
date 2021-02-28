@@ -226,9 +226,13 @@ RPN网络是候选区域网络，用来替代选择性搜索来生成ROI，这�
 
 就这样一直重复，找到所有被保留下来的矩形框。
 
-交并比（Intersection-over-Union，IoU），目标检测中使用的一个概念，是产生的候选框（candidate bound）与原标记框（ground truth bound）的交叠率，即它们的交集与并集的比值
+**交并比**（Intersection-over-Union，IoU）
+
+它是目标检测中使用的一个概念，是产生的候选框（candidate bound）与原标记框（ground truth bound）的交叠率，即它们的交集与并集的比值。
 
 ![](https://img-blog.csdnimg.cn/20181102130324332.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzMwNjM4ODMx,size_16,color_FFFFFF,t_70)
+
+对于非极大值抑制算法来说，IoU指的是两个候选框之间的交叠率。
 
 ## Q7-单阶段检测算法的发展过程是什么样的
 
