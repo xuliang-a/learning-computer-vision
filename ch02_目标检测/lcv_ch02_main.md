@@ -222,6 +222,23 @@ RPN网络是候选区域网络，用来替代选择性搜索来生成ROI，这�
 
 **非极大值抑制的方法：**
 
+NMS步骤如下：
+
+1.设置一个Score的阈值，一个IOU的阈值；
+
+2.对于每类对象，遍历属于该类的所有候选框，
+
+①过滤掉Score低于Score阈值的候选框；
+
+②找到剩下的候选框中最大Score对应的候选框，添加到输出列表；
+
+③进一步计算剩下的候选框与②中输出列表中每个候选框的IOU，若该IOU大于设置的IOU阈值，将该候选框过滤掉，否则加入输出列表中；
+
+④最后输出列表中的候选框即为图片中该类对象预测的所有边界框
+
+3.返回步骤2继续处理下一类对象。
+
+
 例如：先假设有6个矩形框，根据分类器的类别分类概率(即：为背景或目标的得分)做排序，假设从小到大属于车辆的概率 分别为A、B、C、D、E、F。
 
 1)从最大概率矩形框F开始，分别判断A~E与F的重叠度IOU是否大于某个设定的阈值;
@@ -243,6 +260,36 @@ RPN网络是候选区域网络，用来替代选择性搜索来生成ROI，这�
 ## Q7-单阶段检测算法的发展过程是什么样的
 
 ### YOLO
+
+YOLO（You Only Look Once: Unified, Real-Time Object Detection）是one-stage detection的开山之作。
+
+基于先产生候选区再检测的方法虽然有相对较高的检测准确率，但运行速度较慢。
+
+YOLO创造性的将物体检测任务直接当作回归问题（regression problem）来处理，将候选区和检测两个阶段合二为一。只需一眼就能知道每张图像中有哪些物体以及物体的位置。
+
+事实上，YOLO也并没有真正的去掉候选区，而是直接将输入图片划分成7x7=49个网格，每个网格预测两个边界框，一共预测49x2=98个边界框。可以近似理解为在输入图片上粗略的选取98个候选区，这98个候选区覆盖了图片的整个区域，进而用回归预测这98个候选框对应的边界框。
+
+![](https://github.com/scutan90/DeepLearning-500-questions/blob/master/ch08_%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B/img/ch8/YOLOv1-02.png)
+
+从结构上来说，YOLO借鉴了GoogLeNet结构，不同的是YOLO使用 $1 \times 1$卷积层和 $3 \times 3$卷积层来代替Inception模块，这个检测网络包括24个卷积层和2个全连接层。
+
+从输出可以看出YOLO网络最后的输出的尺寸为 $7\times 7 \times 30$，30是指对 $7 \times 7$中的每一个网格都预测了20个类别、置信度c（边界框与标注框的IOU）和边界框(x,y,w,h)，边界框的中心是(x,y),边界框的宽高w,h是相对于原始输入图像的宽高比例，然后在每个网格上预测两个边界框。
+
+![YOLO输入与输出的映射关系](https://upload-images.jianshu.io/upload_images/2709767-100b9cca5ff41ab7.png?imageMogr2/auto-orient/strip|imageView2/2/format/webp)
+
+![YOLO的输出](https://upload-images.jianshu.io/upload_images/2709767-6bd185455eff98cd.png?imageMogr2/auto-orient/strip|imageView2/2/format/webp)
+
+当图像经过YOLO网络后生成了$7\times 7 \times 2$个候选框，最后采用非极大值抑制算法得到筛选出的候选框。
+
+YOLO算法将目标检测看成回归问题，采用的是均方差损失函数将样本标签中不同部分的均方差损失相加在一起，作为整体误差，具体来说有中心点、边框高度和宽度、边框内有物体的置信度、边框内无物体的置信度和对象分类。
+
+![YOLO样本标签与网络实际输出](https://upload-images.jianshu.io/upload_images/2709767-2424b2881c518390.png?imageMogr2/auto-orient/strip|imageView2/2/format/webp)
+
+![YOLO给出的损失函数](https://upload-images.jianshu.io/upload_images/2709767-73e19de371eceedf.png?imageMogr2/auto-orient/strip|imageView2/2/format/webp)
+
+YOLO的最后一层采用线性激活函数，其它层都是Leaky ReLU。训练中采用了drop out和数据增强（data augmentation）来防止过拟合。
+
+参考https://www.jianshu.com/p/cad68ca85e27
 
 ### YOLOv2
 
@@ -271,6 +318,8 @@ RPN网络是候选区域网络，用来替代选择性搜索来生成ROI，这�
 - 变化颜色
 
   可以从4个方面改变图像的颜色：亮度（brightness）、对比度（contrast）、饱和度（saturation）和色调（hue）。
+ 
+摘自《动手学深度学习》P240
 
 ## Q10-目标检测如何进行评估
 
