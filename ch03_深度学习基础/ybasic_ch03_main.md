@@ -43,6 +43,34 @@
 
 ## Q4：如何解决梯度消失和梯度爆炸
 
+**梯度消失的原因**
+   
+   根据链式法则，如果每一层神经元对上一层的输出的偏导乘上权重结果都小于1的话，那么即使这个结果是      0.99，在经过足够多层传播之后，误差对输入层的偏导会趋于0。这种情况会导致靠近输入层的隐含层神经元    调整极小。
+
+**梯度爆炸的原因**
+
+   根据链式法则，如果每一层神经元对上一层的输出的偏导乘上权重结果都大于1的话，在经过足够多层传播之    后，误差对输入层的偏导会趋于无穷大。这种情况又会导致靠近输入层的隐含层神经元调整变动极大。
+
+**梯度消失的解决方案：**
+
+   - 使用relu、leak relu和elu等激活函数。这些激活函数设计思想是将激活函数的导数限制在一定范围内；
+
+   - 使用LSTM、GRU
+
+   - 预训练加微调
+
+**梯度爆炸的解决方案：**
+  
+   - 梯度剪切。设计思想是设置一个梯度剪切阈值，然后更新梯度的时候，如果梯度超过这个阈值，那么就将其      强制限制在这个范围之内；
+
+   - 权重正则化。常见的是l1正则化和l2正则化，正则化是通过对网络权重做正则限制过拟合；
+
+   - 使用relu、leak relu和elu等激活函数。这些激活函数设计思想是将激活函数的导数限制在一定范围内；
+
+   - 批量归一化。
+
+
+
 ## Q4：如何解决网络退化
 
 ## Q4：为什么需要非线性激活函数
@@ -84,9 +112,13 @@
 
 导数为：$f(x) = - (tanh(x))^2$
 
+导数的图像为：
+
+![](https://img-blog.csdnimg.cn/20200407212806764.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2tlZXBwcmFjdGljZQ==,size_16,color_FFFFFF,t_70)
+
 sigmoid和tanh激活函数的区别：
 
-   - 当输入较大或较小时，输出几乎是平滑的并且梯度较小，这不利于权重更新。二者的区别在于输出间隔，tanh 的输出间隔为 1，并且整个函数以 0 为中心，比 sigmoid 函数更好；
+   - 当输入较大或较小时，输出几乎是平滑的并且梯度较小，这不利于权重更新。二者的区别在于输出间隔，      tanh 的输出间隔为 1，并且整个函数以 0 为中心，比 sigmoid 函数更好；
    - 在 tanh 图中，负输入将被强映射为负，而零输入被映射为接近零；
    - 在一般的二元分类问题中，tanh 函数常用于隐藏层，而 sigmoid 函数常用于输出层
 
@@ -98,15 +130,44 @@ sigmoid和tanh激活函数的区别：
 
 ![](https://github.com/scutan90/DeepLearning-500-questions/blob/master/ch03_%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%9F%BA%E7%A1%80/img/ch3/3-32.png)
 
+导数图像为：
+
+![](https://imgconvert.csdnimg.cn/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTcxMjIwMTE1NzE5MzMy?x-oss-process=image/format,png)
+
 **4. Leak Relu 激活函数**
 
-函数表达式：![](https://mmbiz.qpic.cn/mmbiz_png/KmXPKA19gW9PrS2jqcgp04sYOZNhbMVWzaAABmeNFTftYWibibdX6icdlIl4bf8Wy2Gbo8lciaKra9hpNdhko4iaM1g/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1)，其值域为$ (-∞,+∞) $。
+函数表达式：$ f(x) = max(kx, x) $，其中k是leak系数，一般选择0.01或0.02，其值域为$ (-∞,+∞) $。
 
 函数图像为：
 
 ![](https://mmbiz.qpic.cn/mmbiz_png/KmXPKA19gW9PrS2jqcgp04sYOZNhbMVWL4kB5fRTec1zZk4saEztrGYnvCAgm8cZG4AoWbriaD4GRGtnMgY0DTg/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1)
 
-**5. SoftPlus 激活函数**
+为什么Leaky ReLU 比 ReLU 好：
+
+   - Leaky ReLU 通过把 x 的非常小的线性分量给予负输入（0.01x）来调整负值的零梯度（zero        gradients）问题；
+
+   - leak 有助于扩大 ReLU 函数的范围，通常 a 的值为 0.01 左右；
+
+Leaky ReLU 的函数范围是（负无穷到正无穷）
+
+
+**5. elu 激活函数**
+
+函数表达式：![](https://mmbiz.qpic.cn/mmbiz_png/KmXPKA19gW9PrS2jqcgp04sYOZNhbMVWfguia0LXZjVRfoFS3PuViapJt9gygKnJVgfHDROzB0a8kcO8xQURyAcw/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1)
+
+函数和导数的图像为：
+
+![](https://imgconvert.csdnimg.cn/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTcxMjIwMTM0NjE0MTIx?x-oss-process=image/format,png)
+
+ELU 具有 ReLU 的所有优点：
+
+   - 没有 Dead ReLU 问题，输出的平均值接近 0，以 0 为中心；
+
+   - ELU 通过减少偏置偏移的影响，使正常梯度更接近于单位自然梯度，从而使均值向零加速学习；
+
+   - ELU 在较小的输入下会饱和至负值，从而减少前向传播的变异和信息。
+
+**6. SoftPlus 激活函数**
 
 函数表达式：$f(x) = ln( 1 + e^x) $，其值域为$ (0,+∞) $。
 
@@ -114,7 +175,7 @@ sigmoid和tanh激活函数的区别：
 
 ![](https://github.com/scutan90/DeepLearning-500-questions/blob/master/ch03_%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%9F%BA%E7%A1%80/img/ch3/3-30.png)
 
-**6. softmax 函数**
+**7. softmax 函数**
 
 函数表达式：![](https://pic3.zhimg.com/50/v2-39eca1f41fe487983f5111f5e5073396_hd.jpg)，其值域为：$ (0,+∞) $。
 
@@ -123,6 +184,12 @@ sigmoid和tanh激活函数的区别：
 ![](https://mmbiz.qpic.cn/mmbiz_png/KmXPKA19gW9PrS2jqcgp04sYOZNhbMVWmk9OHeNrtt74bsmaDV8l2kXic1Xlxxcv1LvFwuQILPKfm1e3jtDsibNw/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1)
 
 Softmax 多用于多分类神经网络输出。
+
+softmax激活函数的缺点：
+
+   - 在零点不可微；
+
+   - 负输入的梯度为零，这意味着对于该区域的激活，权重不会在反向传播期间更新，因此会产生永不激活的死      亡神经元
 
 ## Q7：为什么要归一化
 
