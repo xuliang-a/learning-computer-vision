@@ -41,12 +41,16 @@
 
    把多个模型集成在一起，来降低单一模型的过拟合风险。
 
+## Q4：如何解决梯度消失和梯度爆炸
+
+## Q4：如何解决网络退化
 
 ## Q4：为什么需要非线性激活函数
 
 ## Q5：如何选择激活函数
 
 ## Q6：常见的激活函数
+
 **1. sigmoid激活函数**  
 
 函数表达式：$f(x) = \frac {1} {1 + e^{-x}}$，其值域为(0,1)。
@@ -55,6 +59,35 @@
 ![](https://mmbiz.qpic.cn/mmbiz_png/KmXPKA19gW9PrS2jqcgp04sYOZNhbMVWe5nFPYqgmwEMyFYMqhWsHUjkwrJLPpeTvVRTGOF54Q7sgCInu1ME0w/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1)
 
 导数为：$f^{'}(x) = \frac {1}{1+e^{-x}}\left( 1- \frac{1}{1+e^{-x}} \right)=f(x)(1-f(x))$
+
+1.1 什么情况下适合使用 Sigmoid 激活函数
+
+   - 对每个神经元的输出进行了归一化。由于Sigmoid 函数的输出值限定在 0 到 1 之间，相当于对输出进行了归一化处理；
+
+   - 用于将预测概率作为输出的模型。由于概率的取值范围是 0 到 1，因此 Sigmoid 函数非常合适；
+
+   - 梯度平滑。避免「跳跃」的输出值；
+
+   - 函数是可微的。这意味着可以找到任意两个点的 sigmoid 曲线的斜率；
+
+1.2 Sigmoid 激活函数有哪些缺点
+
+   - Sigmoid 函数执行指数运算，计算机运行得较慢
+
+**2. tanh激活函数**
+
+函数表达式：$f(x) = \frac {e^x - e^{-x}} {e^x + e^{-x}}$，其值域为(-1,1)。
+
+函数图像为：
+![](https://mmbiz.qlogo.cn/mmbiz_png/KmXPKA19gW9PrS2jqcgp04sYOZNhbMVWtz9Dn7SzuKsicEnDnGEegkH3Wlt5FE2ybkyXdW6m363azzMA0ibbraPA/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1&retryload=2)
+
+导数为：
+
+sigmoid和tanh激活函数的区别：
+
+   - 当输入较大或较小时，输出几乎是平滑的并且梯度较小，这不利于权重更新。二者的区别在于输出间隔，tanh 的输出间隔为 1，并且整个函数以 0 为中心，比 sigmoid 函数更好；
+   - 在 tanh 图中，负输入将被强映射为负，而零输入被映射为接近零；
+   - 在一般的二元分类问题中，tanh 函数常用于隐藏层，而 sigmoid 函数常用于输出层
 
 ## Q7：为什么要归一化
 
