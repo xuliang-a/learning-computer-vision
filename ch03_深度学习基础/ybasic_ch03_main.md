@@ -43,11 +43,11 @@
 
 ## Q4：如何解决梯度消失和梯度爆炸
 
-**梯度消失的原因**
+**梯度消失**
    
    根据链式法则，如果每一层神经元对上一层的输出的偏导乘上权重结果都小于1的话，那么即使这个结果是      0.99，在经过足够多层传播之后，误差对输入层的偏导会趋于0。这种情况会导致靠近输入层的隐含层神经元    调整极小。
 
-**梯度爆炸的原因**
+**梯度爆炸**
 
    根据链式法则，如果每一层神经元对上一层的输出的偏导乘上权重结果都大于1的话，在经过足够多层传播之    后，误差对输入层的偏导会趋于无穷大。这种情况又会导致靠近输入层的隐含层神经元调整变动极大。
 
@@ -55,19 +55,21 @@
 
    - 使用relu、leak relu和elu等激活函数。这些激活函数设计思想是将激活函数的导数限制在一定范围内；
 
-   - 使用LSTM、GRU
+   - 使用LSTM、GRU。通过控制门来解决相隔较远的数据之间的数据传递问题；
 
-   - 预训练加微调
+   - 残差结构。残差的捷径（shortcut）部分可以很轻松的构建几百层，一千多层的网络，而不用担心梯度消失过快的问题；
+
+   - 预训练加微调。预训练（pre-training）的基本思想是每次训练一层隐节点，训练时将上一层隐节点的输      出作为输入，而本层隐节点的输出作为下一层隐节点的输入；在预训练完成后，再对整个网络进行“微调”（fine-tunning）
 
 **梯度爆炸的解决方案：**
   
-   - 梯度剪切。设计思想是设置一个梯度剪切阈值，然后更新梯度的时候，如果梯度超过这个阈值，那么就将其      强制限制在这个范围之内；
+   - 梯度剪切（裁剪）。设计思想是设置一个梯度剪切阈值，然后更新梯度的时候，如果梯度超过这个阈值，那      么就将其强制限制在这个范围之内；
 
    - 权重正则化。常见的是l1正则化和l2正则化，正则化是通过对网络权重做正则限制过拟合；
 
    - 使用relu、leak relu和elu等激活函数。这些激活函数设计思想是将激活函数的导数限制在一定范围内；
 
-   - 批量归一化。
+   - 批量归一化。网络的反向传播式子中有权重的存在，所以权重的大小会导致梯度的消失和爆炸，batchnorm就是通过对每一层的输出规范为均值和方差一致的方法，消除了权重带来的放大缩小的影响，进而解决梯度消失和爆炸的问题。
 
 
 
@@ -116,10 +118,12 @@
 
 ![](https://img-blog.csdnimg.cn/20200407212806764.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2tlZXBwcmFjdGljZQ==,size_16,color_FFFFFF,t_70)
 
-sigmoid和tanh激活函数的区别：
+2.1 sigmoid和tanh激活函数的区别：
 
    - 当输入较大或较小时，输出几乎是平滑的并且梯度较小，这不利于权重更新。二者的区别在于输出间隔，      tanh 的输出间隔为 1，并且整个函数以 0 为中心，比 sigmoid 函数更好；
+  
    - 在 tanh 图中，负输入将被强映射为负，而零输入被映射为接近零；
+   
    - 在一般的二元分类问题中，tanh 函数常用于隐藏层，而 sigmoid 函数常用于输出层
 
 **3. Relu激活函数**
@@ -134,6 +138,20 @@ sigmoid和tanh激活函数的区别：
 
 ![](https://imgconvert.csdnimg.cn/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTcxMjIwMTE1NzE5MzMy?x-oss-process=image/format,png)
 
+3.1 relu激活函数的优点
+
+   - 解决了梯度消失、爆炸的问题
+   
+   - 计算方便，计算速度快
+   
+   - 加速了网络的训练
+
+3.2 relu激活函数的缺点
+
+   - 由于负数部分恒为0，会导致一些神经元无法激活（可通过设置小学习率部分解决）
+   
+   - 输出不是以0为中心的
+
 **4. Leak Relu 激活函数**
 
 函数表达式：$ f(x) = max(kx, x) $，其中k是leak系数，一般选择0.01或0.02，其值域为$ (-∞,+∞) $。
@@ -142,7 +160,7 @@ sigmoid和tanh激活函数的区别：
 
 ![](https://mmbiz.qpic.cn/mmbiz_png/KmXPKA19gW9PrS2jqcgp04sYOZNhbMVWL4kB5fRTec1zZk4saEztrGYnvCAgm8cZG4AoWbriaD4GRGtnMgY0DTg/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1)
 
-为什么Leaky ReLU 比 ReLU 好：
+4.1 为什么Leaky ReLU 比 ReLU 好：
 
    - Leaky ReLU 通过把 x 的非常小的线性分量给予负输入（0.01x）来调整负值的零梯度（zero        gradients）问题；
 
@@ -159,7 +177,7 @@ Leaky ReLU 的函数范围是（负无穷到正无穷）
 
 ![](https://imgconvert.csdnimg.cn/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTcxMjIwMTM0NjE0MTIx?x-oss-process=image/format,png)
 
-ELU 具有 ReLU 的所有优点：
+5.1 ELU 具有 ReLU 的所有优点：
 
    - 没有 Dead ReLU 问题，输出的平均值接近 0，以 0 为中心；
 
@@ -185,7 +203,7 @@ ELU 具有 ReLU 的所有优点：
 
 Softmax 多用于多分类神经网络输出。
 
-softmax激活函数的缺点：
+7.1 softmax激活函数的缺点：
 
    - 在零点不可微；
 
