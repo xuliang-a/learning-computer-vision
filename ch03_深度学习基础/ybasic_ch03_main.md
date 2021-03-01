@@ -100,12 +100,7 @@ sigmoid和tanh激活函数的区别：
 
 **4. Leak Relu 激活函数**
 
-函数表达式：$ f(x) =  \left\{
-   \begin{aligned}
-   ax, \quad x<0 \\
-   x, \quad x>0
-   \end{aligned}
-   \right. $，其值域为$ (-∞,+∞) $。
+函数表达式：![](https://mmbiz.qpic.cn/mmbiz_png/KmXPKA19gW9PrS2jqcgp04sYOZNhbMVWzaAABmeNFTftYWibibdX6icdlIl4bf8Wy2Gbo8lciaKra9hpNdhko4iaM1g/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1)，其值域为$ (-∞,+∞) $。
 
 函数图像为：
 
@@ -121,7 +116,9 @@ sigmoid和tanh激活函数的区别：
 
 **6. softmax 函数**
 
-函数表达式：$ \sigma(z)_j = \frac{e^{z_j}}{\sum_{k=1}^K e^{z_k}} $，其值域为$ (0,+∞) $。
+$\sigma(z)_j = \frac {e^{z_j}} {1+\sum_{k=1}^K k}$
+
+函数表达式：$ \sigma(z)_j = \frac {e^{z_j}} {\sum_{k=1}^K e^{z_k}} $，其值域为$ (0,+∞) $。
 
 函数图像为：
 
