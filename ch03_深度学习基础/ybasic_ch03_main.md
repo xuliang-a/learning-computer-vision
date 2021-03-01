@@ -79,7 +79,8 @@
 函数表达式：$f(x) = \frac {e^x - e^{-x}} {e^x + e^{-x}}$，其值域为(-1,1)。
 
 函数图像为：
-![](https://mmbiz.qlogo.cn/mmbiz_png/KmXPKA19gW9PrS2jqcgp04sYOZNhbMVWtz9Dn7SzuKsicEnDnGEegkH3Wlt5FE2ybkyXdW6m363azzMA0ibbraPA/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1&retryload=2)
+
+![](https://mmbiz.qpic.cn/mmbiz_png/KmXPKA19gW9PrS2jqcgp04sYOZNhbMVWtz9Dn7SzuKsicEnDnGEegkH3Wlt5FE2ybkyXdW6m363azzMA0ibbraPA/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1)
 
 导数为：
 
