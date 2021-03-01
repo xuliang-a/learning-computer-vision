@@ -82,13 +82,52 @@
 
 ![](https://mmbiz.qpic.cn/mmbiz_png/KmXPKA19gW9PrS2jqcgp04sYOZNhbMVWtz9Dn7SzuKsicEnDnGEegkH3Wlt5FE2ybkyXdW6m363azzMA0ibbraPA/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1)
 
-导数为：
+导数为：$f(x) = - (tanh(x))^2$
 
 sigmoid和tanh激活函数的区别：
 
    - 当输入较大或较小时，输出几乎是平滑的并且梯度较小，这不利于权重更新。二者的区别在于输出间隔，tanh 的输出间隔为 1，并且整个函数以 0 为中心，比 sigmoid 函数更好；
    - 在 tanh 图中，负输入将被强映射为负，而零输入被映射为接近零；
    - 在一般的二元分类问题中，tanh 函数常用于隐藏层，而 sigmoid 函数常用于输出层
+
+**3. Relu激活函数**
+
+函数表达式：$ f(x) = max(0, x)$，其值域为$ [0,+∞) $。
+
+函数图像为：
+
+![](https://github.com/scutan90/DeepLearning-500-questions/blob/master/ch03_%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%9F%BA%E7%A1%80/img/ch3/3-32.png)
+
+**4. Leak Relu 激活函数**
+
+函数表达式：$ f(x) =  \left\{
+   \begin{aligned}
+   ax, \quad x<0 \\
+   x, \quad x>0
+   \end{aligned}
+   \right. $，其值域为$ (-∞,+∞) $。
+
+函数图像为：
+
+![](https://mmbiz.qpic.cn/mmbiz_png/KmXPKA19gW9PrS2jqcgp04sYOZNhbMVWL4kB5fRTec1zZk4saEztrGYnvCAgm8cZG4AoWbriaD4GRGtnMgY0DTg/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1)
+
+**5. SoftPlus 激活函数**
+
+函数表达式：$f(x) = ln( 1 + e^x) $，其值域为$ (0,+∞) $。
+
+函数图像为：
+
+![](https://github.com/scutan90/DeepLearning-500-questions/blob/master/ch03_%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%9F%BA%E7%A1%80/img/ch3/3-30.png)
+
+**6. softmax 函数**
+
+函数表达式：$\sigma(z)_j = \frac{e^{z_j}}{\sum_{k=1}^K e^{z_k}} $，其值域为$ (0,+∞) $。
+
+函数图像为：
+
+![](https://mmbiz.qpic.cn/mmbiz_png/KmXPKA19gW9PrS2jqcgp04sYOZNhbMVWmk9OHeNrtt74bsmaDV8l2kXic1Xlxxcv1LvFwuQILPKfm1e3jtDsibNw/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1)
+
+Softmax 多用于多分类神经网络输出。
 
 ## Q7：为什么要归一化
 
