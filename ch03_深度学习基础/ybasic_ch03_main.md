@@ -116,9 +116,7 @@ sigmoid和tanh激活函数的区别：
 
 **6. softmax 函数**
 
-$\sigma(z)_j = \frac {e^{z_j}} {1+\sum_{k=1}^K k}$
-
-函数表达式：$ \sigma(z)_j = \frac {e^{z_j}} {\sum_{k=1}^K e^{z_k}} $，其值域为$ (0,+∞) $。
+函数表达式：![](https://pic3.zhimg.com/50/v2-39eca1f41fe487983f5111f5e5073396_hd.jpg)，其值域为：$ (0,+∞) $。
 
 函数图像为：
 
