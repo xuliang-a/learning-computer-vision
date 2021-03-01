@@ -292,7 +292,38 @@ YOLO的最后一层采用线性激活函数，其它层都是Leaky ReLU。训练
 
 参考https://www.jianshu.com/p/cad68ca85e27
 
+---
+
 ### YOLOv2
+
+YOLOv2采用了新的网络结构Darknet-19。
+
+![Darknet-19](https://github.com/scutan90/DeepLearning-500-questions/blob/master/ch08_%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B/img/ch8/YOLOv2-02.png)
+
+Darknet-19包括19个卷积层和5个最大池化层，主要采用了 $1 \times 1$卷积层和 $3 \times 3$卷积层。
+
+YOLOv2网络在Darknet-19的基础上形成
+
+![YOLOv2网络](https://img-blog.csdnimg.cn/20191118110947444.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3podzg2NDY4MDM1NQ==,size_16,color_FFFFFF,t_70)
+
+YOLO2网络中第0-22层是Darknet-19网络，后面第23层开始，是添加的检测网络。
+
+若Darknet-19表示为
+
+![](https://img-blog.csdn.net/20180630232927217?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlbnh1ZWxpdQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70)
+
+有对应的YOLOv2网络
+
+![](https://img-blog.csdn.net/20180630233004461?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlbnh1ZWxpdQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70)
+
+
+YOLOv2的改进策略如下：
+
+1. 首先从输入图像上来说，大部分网络的输入都是以小于 $256\times 256$分辨率的图像作为输入，YOLOv2将输入图像分辨率提升至 $448 \times 448$，从而提高了检测精度。
+
+2. 在每个卷积层后加批归一化层（Batch Normalization,BN），BN层可以起到一定正则化效果，能提升模型收敛速度，防止过拟合。
+
+3. 
 
 ### YOLO9000
 
