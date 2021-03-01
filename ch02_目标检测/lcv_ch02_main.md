@@ -348,7 +348,36 @@ YOLOv2的改进策略如下：
 
 ### YOLO9000
 
+YOLO9000是在YOLOv2上提出的一种混合目标检测数据集和分类数据集的联合训练方法，可以检测超过9000个类别的模型。
+
+1. YOLO9000使用一种树形结构WordTree，将数据集组织起来，组织之后的数据集有9418个类别，使用one-hot编码的形式，将数据集中每个物体的类别标签组织成一个长度为9418的向量，在WordTree中，从该物体对应的名词到根节点上的路径出现的次对应的类别标号置为1，其余置为0；
+
+![](https://github.com/scutan90/DeepLearning-500-questions/blob/master/ch08_%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B/img/ch8/YOLOv2-04.png)
+
+2. YOLO9000使用的是YOLOv2的结构，锚框个数由5调整为3，那么每个网格就要预测 $3 \times (4+1+9418) = 28269$个值。
+
+3. WordTree中每个节点的子节点都属于同一个子类，分层次的对每个子类中的节点进行一次softmax处理，以得到同义词集合中的每个词的下义词的概率。当需要预测属于某个类别的概率时，需要预测该类别节点的条件概率。即在WordTree上找到该类别名词到根节点的路径，计算路径上每个节点的概率之积。预测时，YOLOv2得到置信度，同时会给出边界框位置以及一个树状概率图，沿着根节点向下，沿着置信度最高的分支向下，直到达到某个阈值，最后到达的节点类别即为预测物体的类别。
+
+---
+
 ### YOLOv3
+
+YOLOv3是在YOLOv2的基础上做的一些尝试性改进。
+
+1. 在Darknet-19的基础上引入了残差块，并进一步加深了网络，改进后的网络有53个卷积层，取名为Darknet-53，网络结构如下图所示
+
+![](https://github.com/scutan90/DeepLearning-500-questions/blob/master/ch08_%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B/img/ch8/YOLOv3-01.png)
+
+2. YOLOv3从不同尺度提取特征，相比YOLOv2，YOLOv3提取最后3层特征图，不仅在每个特征图上分别独立做预测，同时通过将小特征图上采样到与大的特征图相同大小，然后与大的特征图拼接做进一步预测。用维度聚类的思想聚类出9种尺度的anchor box，将9种尺度的anchor box均匀的分配给3种尺度的特征图.如下图是在网络结构图的基础上加上多尺度特征提取部分的示意图（以在COCO数据集(80类)上256x256的输入为例）：
+
+![](https://github.com/scutan90/DeepLearning-500-questions/blob/master/ch08_%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B/img/ch8/YOLOv3-03.png?raw=true)
+
+另一个图
+
+![](https://img-blog.csdnimg.cn/20190329210004674.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2xpdHQxZQ==,size_16,color_FFFFFF,t_70)
+
+DBL代表卷积+BN+Leaky ReLU
+
 
 ## Q8-增强模型对小目标的检测效果有哪些方法
 
