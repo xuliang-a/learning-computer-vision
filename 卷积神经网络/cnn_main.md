@@ -154,7 +154,7 @@ $1\times 1 $卷积的作用主要为以下两点：
 
 为了便于理解1乘1卷积和全连接的关系，画了一个图
 
-![1乘1卷积和全连接的关系](ch01_img/1乘1卷积和全连接的关系.png)
+![1乘1卷积和全连接的关系](cnn_img/1乘1卷积和全连接的关系.png)
 
 摘自《动手学深度学习》
 
@@ -669,7 +669,7 @@ SPPNet的基础是ZFNet，通过将ZFNet的第一个全连接层替换为SPP层�
 
 传统CNN和SPPNet的对比
 
-![传统CNN和SPPNet的对比](ch01_img/传统CNN和SPPNet.jpeg)
+![传统CNN和SPPNet的对比](cnn_img/传统CNN和SPPNet.jpeg)
 
 从上面的架构中可以看出，SPPNet与经典CNN最主要的区别在于两点：
 
